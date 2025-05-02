@@ -1,0 +1,23 @@
+﻿<Window x:Class="VisaManager.DetailVisa"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Visa Details" Height="350" Width="400">
+    <Grid Margin="10">
+        <StackPanel>
+            <TextBlock Text="Visa Name:" FontWeight="Bold"/>
+            <TextBox x:Name="VisaNameTextBox" IsReadOnly="True" Margin="0,0,0,10"/>
+
+            <TextBlock Text="Requirement:" FontWeight="Bold"/>
+            <TextBox x:Name="RequirementTextBox" IsReadOnly="True" TextWrapping="Wrap" Height="60" AcceptsReturn="True" Margin="0,0,0,10"/>
+
+            <TextBlock Text="Valid Days:" FontWeight="Bold"/>
+            <TextBox x:Name="ExpireDaysTextBox" IsReadOnly="True" Margin="0,0,0,20"/>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button x:Name="EditButton" Content="Edit" Width="75" Margin="5" Click="EditButton_Click"/>
+                <Button x:Name="SaveButton" Content="Save" Width="75" Margin="5" Click="SaveButton_Click" Visibility="Collapsed"/>
+                <Button Content="Delete" Width="75" Margin="5" Click="DeleteButton_Click"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>
