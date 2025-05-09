@@ -1,24 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.SQLite;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace VisaManager
 {
-    /// <summary>
-    /// Interaction logic for DetailClient.xaml
-    /// </summary>
     public partial class DetailClient : Window
     {
         private string clientName;
@@ -37,26 +24,36 @@ namespace VisaManager
                 conn.Open();
                 var cmd = new SQLiteCommand("SELECT * FROM Clients WHERE Name = @name", conn);
                 cmd.Parameters.AddWithValue("@name", clientName);
-                var reader = cmd.ExecuteReader();
-
-                if (reader.Read())
+                using (var reader = cmd.ExecuteReader())
                 {
-                    NameText.Text = reader["Name"].ToString();
-                    EmailText.Text = reader["Email"].ToString();
-                    VisaTypeText.Text = reader["VisaType"].ToString();
-                    ExpireDateText.Text = reader["ExpireDate"].ToString();
-                    PassportNumberText.Text = reader["PassportNo"].ToString();
-                    CountryText.Text = reader["CountryOrigin"].ToString();
 
-                    string passportPath = reader["PassportPath"].ToString();
-                    if (File.Exists(passportPath))
+                    if (reader.Read())
                     {
-                        PassportImage.Source = new BitmapImage(new Uri(passportPath));
-                    }
-                }
-            }
-        }
+                        NameText.Text = reader["Name"].ToString();
+                        EmailText.Text = reader["Email"].ToString();
+                        VisaTypeText.Text = reader["VisaType"].ToString();
+                        ExpireDateText.Text = reader["ExpireDate"].ToString();
+                        PassportNumberText.Text = reader["PassportNo"].ToString();
+                        CountryText.Text = reader["CountryOrigin"].ToString();
 
+                        string passportPath = reader["PassportPath"].ToString();
+                        if (File.Exists(passportPath))
+                        {
+                            if (passportPath.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase))
+                            {
+                                // Load a default PDF icon thumbnail
+                                PassportImage.Source = new BitmapImage(new Uri("pack://application:,,,/Assets/pdf_icon.png"));
+                            }
+                            else
+                            {
+                                PassportImage.Source = new BitmapImage(new Uri(passportPath));
+                            }
+                        }
+                    }
+                    reader.Close();
+                }
+                }
+        }
 
         private void Edit_Click(object sender, RoutedEventArgs e)
         {
@@ -70,8 +67,6 @@ namespace VisaManager
                 LoadClientDetails();
             }
         }
-
-
 
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
@@ -90,6 +85,39 @@ namespace VisaManager
                 this.Close(); // Close the detail window
             }
         }
+
+        private void PassportImage_Click(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (PassportImage.Source is BitmapImage bmp && bmp.UriSource != null)
+            {
+                string filePath = bmp.UriSource.LocalPath;
+
+                if (filePath.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase))
+                {
+                    try
+                    {
+                        System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+                        {
+                            FileName = filePath,
+                            UseShellExecute = true // 👈 opens with default app
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Failed to open PDF: " + ex.Message);
+                    }
+                }
+                else
+                {
+                    ImageViewer viewer = new ImageViewer(filePath);
+                    viewer.Owner = this;
+                    viewer.ShowDialog();
+                }
+            }
+        }
+
+
+
 
     }
 }

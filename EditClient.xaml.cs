@@ -35,6 +35,7 @@ namespace VisaManager
                 {
                     VisaComboBox.Items.Add(reader["Name"].ToString());
                 }
+                reader.Close();
             }
         }
 
@@ -48,7 +49,6 @@ namespace VisaManager
                 var region = new System.Globalization.RegionInfo(culture.LCID);
                 countries.Add(region.EnglishName);
             }
-
             CountryComboBox.ItemsSource = new List<string>(countries);
         }
 
@@ -59,24 +59,43 @@ namespace VisaManager
                 conn.Open();
                 var cmd = new SQLiteCommand("SELECT * FROM Clients WHERE Name = @name", conn);
                 cmd.Parameters.AddWithValue("@name", originalClientName);
-                var reader = cmd.ExecuteReader();
 
-                if (reader.Read())
+                using (var reader = cmd.ExecuteReader()) // FIXED
                 {
-                    NameTextBox.Text = reader["Name"].ToString();
-                    PassportNumberTextBox.Text = reader["PassportNo"].ToString();
-                    EmailTextBox.Text = reader["Email"].ToString();
-                    VisaComboBox.SelectedItem = reader["VisaType"].ToString();
-                    ExpireDatePicker.SelectedDate = DateTime.Parse(reader["ExpireDate"].ToString());
-                    CountryComboBox.SelectedItem = reader["CountryOrigin"].ToString();
-
-                    selectedPassportPath = reader["PassportPath"].ToString();
-                    if (File.Exists(selectedPassportPath))
+                    if (reader.Read())
                     {
-                        PassportImage.Source = new BitmapImage(new Uri(selectedPassportPath));
-                    }
+                        NameTextBox.Text = reader["Name"].ToString();
+                        PassportNumberTextBox.Text = reader["PassportNo"].ToString();
+                        EmailTextBox.Text = reader["Email"].ToString();
+                        VisaComboBox.SelectedItem = reader["VisaType"].ToString();
+                        ExpireDatePicker.SelectedDate = DateTime.Parse(reader["ExpireDate"].ToString());
+                        CountryComboBox.SelectedItem = reader["CountryOrigin"].ToString();
 
-                    UpdateVisaDetails(reader["VisaType"].ToString());
+                        selectedPassportPath = reader["PassportPath"].ToString();
+                        if (File.Exists(selectedPassportPath))
+                        {
+                            if (selectedPassportPath.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase))
+                            {
+                                // Show a PDF icon instead
+                                PassportImage.Source = new BitmapImage(new Uri("pack://application:,,,/Assets/pdf_icon.png"));
+                            }
+                            else
+                            {
+                                try
+                                {
+                                    PassportImage.Source = new BitmapImage(new Uri(selectedPassportPath));
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine("Error loading image: " + ex.Message);
+                                    PassportImage.Source = null;
+                                }
+                            }
+                        }
+
+                        UpdateVisaDetails(reader["VisaType"].ToString());
+                    }
+                    reader.Close();
                 }
             }
         }
@@ -88,12 +107,15 @@ namespace VisaManager
                 conn.Open();
                 var cmd = new SQLiteCommand("SELECT Requirement, ExpireDate FROM Visa WHERE Name = @name", conn);
                 cmd.Parameters.AddWithValue("@name", visaName);
-                var reader = cmd.ExecuteReader();
 
-                if (reader.Read())
+                using (var reader = cmd.ExecuteReader()) // FIXED
                 {
-                    VisaRequirementText.Text = reader["Requirement"].ToString();
-                    VisaValidDaysText.Text = reader["ExpireDate"].ToString() + " days";
+                    if (reader.Read())
+                    {
+                        VisaRequirementText.Text = reader["Requirement"].ToString();
+                        VisaValidDaysText.Text = reader["ExpireDate"].ToString() + " days";
+                    }
+                    reader.Close();
                 }
             }
         }

@@ -47,11 +47,31 @@ namespace VisaManager
                     FOREIGN KEY (VisaType) REFERENCES Visa(Name)
                 );";
 
+                string companyTable = @"
+                CREATE TABLE IF NOT EXISTS Company (
+                    Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    Name TEXT,
+                    Contact TEXT,
+                    Email TEXT,
+                    Akta TEXT,
+	                SK TEXT,
+	                NIB TEXT,
+	                NPWP TEXT,
+	                Doc1 TEXT,
+	                Doc2 TEXT,
+	                Doc3 TEXT,
+	                Doc4 TEXT,
+	                Doc5 TEXT
+	                );";
+
                 // Create both tables
                 SQLiteCommand cmd1 = new SQLiteCommand(visaTable, conn);
                 cmd1.ExecuteNonQuery();
 
                 SQLiteCommand cmd2 = new SQLiteCommand(clientsTable, conn);
+                cmd2.ExecuteNonQuery();
+
+                SQLiteCommand cmd3 = new SQLiteCommand(companyTable, conn);
                 cmd2.ExecuteNonQuery();
 
                 conn.Close();
@@ -81,6 +101,12 @@ namespace VisaManager
         private void OpenPreviewClient(object sender, RoutedEventArgs e)
         {
             PreviewClients preview = new PreviewClients();
+            preview.ShowDialog();
+        }
+
+        private void OpenAddCompany(object sender, RoutedEventArgs e)
+        {
+            AddCompany preview = new AddCompany();
             preview.ShowDialog();
         }
 
