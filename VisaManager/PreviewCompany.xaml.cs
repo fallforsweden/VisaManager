@@ -65,8 +65,14 @@ namespace VisaManager
         {
             if (CompanyDataGrid.SelectedItem is CompanyInfo selectedCompany)
             {
-                var detailWindow = new DetailCompany(selectedCompany.Name); // We'll pass the name!
-                detailWindow.ShowDialog();
+                DetailCompany detailWindow = new DetailCompany(selectedCompany.Name);
+                bool? result = detailWindow.ShowDialog();
+
+                if (detailWindow.CompanyWasModified)
+                {
+                    LoadCompany();
+                }
+
             }
         }
 

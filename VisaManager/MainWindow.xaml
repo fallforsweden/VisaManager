@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="1024">
     <Grid>
-        <Button Content="Preview Companies" Click="PreviewCompanies_Click" Width="150" Margin="568,234,82,116"/>
+        <Button Content="Add Visa" Click="AddVisa_Click" Width="150" Margin="568,234,82,116"/>
         <Button Content="View Visa List" Click="OpenVisaList_Click" Width="150" Margin="568,337,82,21"/>
         <Button Content="input client" Click="OpenAddClient" Width="150" Margin="568,34,82,320"/>
         <Button Content="preview client" Click="OpenPreviewClient" Width="150" Margin="680,138,194,217"/>

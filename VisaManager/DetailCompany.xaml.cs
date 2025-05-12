@@ -13,8 +13,13 @@ namespace VisaManager
     /// </summary>
     public partial class DetailCompany : Window
     {
-
+        public bool CompanyWasModified { get; private set; } = false;
         private string currentCompanyName;
+        private string originalName;
+        private string originalContact;
+        private string originalEmail;
+        private bool isEditing = false;
+
 
         public DetailCompany(string name)
         {
@@ -39,8 +44,13 @@ namespace VisaManager
                     ContactLabel.Text = reader["Contact"].ToString();
                     EmailLabel.Text = reader["Email"].ToString();
                     // You can also handle paths to display documents/images
+
+                    originalName = NameLabel.Text;
+                    originalContact = ContactLabel.Text;
+                    originalEmail = EmailLabel.Text;
+
                 }
-                    AktaLink.Tag = reader["Akta"].ToString();
+                AktaLink.Tag = reader["Akta"].ToString();
                     SKLink.Tag = reader["SK"].ToString();
                     NIBLink.Tag = reader["NIB"].ToString();
                     NPWPLink.Tag = reader["NPWP"].ToString();
@@ -82,21 +92,49 @@ namespace VisaManager
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            using (var conn = new SQLiteConnection("Data Source=Database/mydata.sqlite;Version=3;"))
+            if (!isEditing)
             {
-                conn.Open();
-                var cmd = new SQLiteCommand("UPDATE Company SET Name = @name, Contact = @contact, Email = @email WHERE Name = @originalName", conn);
-                cmd.Parameters.AddWithValue("@name", NameLabel.Text);
-                cmd.Parameters.AddWithValue("@contact", ContactLabel.Text);
-                cmd.Parameters.AddWithValue("@email", EmailLabel.Text);
-                cmd.Parameters.AddWithValue("@originalName", currentCompanyName);
+                // Enter edit mode
+                isEditing = true;
+                EditSaveButton.Content = "Save";
 
-                cmd.ExecuteNonQuery();
+                NameLabel.IsReadOnly = false;
+                ContactLabel.IsReadOnly = false;
+                EmailLabel.IsReadOnly = false;
             }
+            else
+            {
+                // Save changes to DB
+                using (var conn = new SQLiteConnection("Data Source=Database/mydata.sqlite;Version=3;"))
+                {
+                    conn.Open();
+                    var cmd = new SQLiteCommand("UPDATE Company SET Name = @name, Contact = @contact, Email = @email WHERE Name = @originalName", conn);
+                    cmd.Parameters.AddWithValue("@name", NameLabel.Text);
+                    cmd.Parameters.AddWithValue("@contact", ContactLabel.Text);
+                    cmd.Parameters.AddWithValue("@email", EmailLabel.Text);
+                    cmd.Parameters.AddWithValue("@originalName", currentCompanyName);
 
-            MessageBox.Show("Company updated!");
-            currentCompanyName = NameLabel.Text; // In case name was changed
+                    cmd.ExecuteNonQuery();
+                }
+
+                MessageBox.Show("Company updated!");
+
+                originalName = NameLabel.Text;
+                originalContact = ContactLabel.Text;
+                originalEmail = EmailLabel.Text;
+                currentCompanyName = NameLabel.Text;
+                CompanyWasModified = true;
+
+                // Exit edit mode
+                isEditing = false;
+                EditSaveButton.Content = "Edit";
+
+                NameLabel.IsReadOnly = true;
+                ContactLabel.IsReadOnly = true;
+                EmailLabel.IsReadOnly = true;
+            }
         }
+
 
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
@@ -115,6 +153,43 @@ namespace VisaManager
                 MessageBox.Show("Company deleted.");
                 this.Close(); // Peace out ✌️
             }
+            CompanyWasModified = true;
+        }
+
+        private void ReplaceDocument(string columnName, Hyperlink link)
+        {
+            var dlg = new Microsoft.Win32.OpenFileDialog
+            {
+                Filter = "Image and PDF Files|*.jpg;*.jpeg;*.png;*.pdf"
+            };
+
+            if (dlg.ShowDialog() == true)
+            {
+                string sourcePath = dlg.FileName;
+                string destDir = @"C:\VisaManager";
+                Directory.CreateDirectory(destDir);
+
+                string fileName = $"{columnName}_{Path.GetFileName(sourcePath)}";
+                string destPath = Path.Combine(destDir, fileName);
+                File.Copy(sourcePath, destPath, true);
+
+                using (var conn = new SQLiteConnection("Data Source=Database/mydata.sqlite;Version=3;"))
+                {
+                    conn.Open();
+                    var cmd = new SQLiteCommand($"UPDATE Company SET {columnName} = @path WHERE Name = @name", conn);
+                    cmd.Parameters.AddWithValue("@path", destPath);
+                    cmd.Parameters.AddWithValue("@name", currentCompanyName);
+                    cmd.ExecuteNonQuery();
+                }
+
+                link.Tag = destPath;
+                MessageBox.Show($"{columnName} updated!");
+            }
+        }
+
+        private void ReplaceAkta_Click(object sender, RoutedEventArgs e)
+        {
+            ReplaceDocument("Akta", AktaLink);
         }
     }
-    }
+}

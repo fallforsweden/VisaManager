@@ -10,18 +10,19 @@
         <StackPanel Margin="20" VerticalAlignment="Top">
 
             <TextBlock Text="Name:" FontWeight="Bold"/>
-            <TextBlock x:Name="NameLabel" Margin="0,0,0,10"/>
+            <TextBox x:Name="NameLabel" Margin="0,0,0,10" IsReadOnly="True"/>
 
-            <TextBlock Text="Passport Number:" FontWeight="Bold"/>
-            <TextBlock x:Name="ContactLabel" Margin="0,0,0,10"/>
+            <TextBlock Text="Contact:" FontWeight="Bold"/>
+            <TextBox x:Name="ContactLabel" Margin="0,0,0,10" IsReadOnly="True"/>
 
             <TextBlock Text="Email:" FontWeight="Bold"/>
-            <TextBlock x:Name="EmailLabel" Margin="0,0,0,10"/>
+            <TextBox x:Name="EmailLabel" Margin="0,0,0,10" IsReadOnly="True"/>
 
             <TextBlock>
-                <Run Text="Akta: " />
-                <Hyperlink x:Name="AktaLink" Click="OpenFile_Click">Open</Hyperlink>
+        <Run Text="Akta: " />
+        <Hyperlink x:Name="AktaLink" Click="OpenFile_Click">Open</Hyperlink>
             </TextBlock>
+            <Button Content="Replace" Click="ReplaceAkta_Click" Margin="5,0,0,0"/>
             <TextBlock>
                 <Run Text="SK: " />
                 <Hyperlink x:Name="SKLink" Click="OpenFile_Click">Open</Hyperlink>
@@ -61,10 +62,14 @@
                 <Run Text="Doc 5: " />
                 <Hyperlink x:Name="Doc5Link" Click="OpenFile_Click">Open</Hyperlink>
             </TextBlock>
+            
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
-            <Button Content="Edit" Click="EditButton_Click" Margin="5"/>
-            <Button Content="Delete" Click="DeleteButton_Click" Margin="5"/>
+                <Button x:Name="EditSaveButton" Content="Edit" Click="EditButton_Click" />
+
+                <Button Content="Delete" Click="DeleteButton_Click" Margin="5"/>
         </StackPanel>
+            
+            
 
 
         </StackPanel>

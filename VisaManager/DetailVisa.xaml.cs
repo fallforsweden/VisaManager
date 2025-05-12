@@ -18,7 +18,7 @@ namespace VisaManager
 
         private void LoadVisaDetails()
         {
-            using (SQLiteConnection conn = new SQLiteConnection("Data Source=mydata.sqlite;Version=3;"))
+            using (SQLiteConnection conn = new SQLiteConnection("Data Source=Database/mydata.sqlite;Version=3;"))
             {
                 conn.Open();
                 string query = "SELECT * FROM Visa WHERE Name = @name";
@@ -33,6 +33,7 @@ namespace VisaManager
                             RequirementTextBox.Text = reader["Requirement"].ToString();
                             ExpireDaysTextBox.Text = reader["ExpireDate"].ToString();
                         }
+                        reader.Close();
                     }
                 }
                 conn.Close(); // <- Not strictly needed, but just to be explicit
@@ -61,7 +62,7 @@ namespace VisaManager
                 return;
             }
 
-            using (SQLiteConnection conn = new SQLiteConnection("Data Source=mydata.sqlite;Version=3;"))
+            using (SQLiteConnection conn = new SQLiteConnection("Data Source=Database/mydata.sqlite;Version=3;"))
             {
                 conn.Open();
                 string query = "UPDATE Visa SET Name = @newName, Requirement = @requirement, ExpireDate = @expireDays WHERE Name = @originalName";
@@ -90,7 +91,7 @@ namespace VisaManager
         {
             if (MessageBox.Show("Are you sure you want to delete this visa?", "Confirm Delete", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                using (SQLiteConnection conn = new SQLiteConnection("Data Source=mydata.sqlite;Version=3;"))
+                using (SQLiteConnection conn = new SQLiteConnection("Data Source=Database/mydata.sqlite;Version=3;"))
                 {
                     conn.Open();
                     string query = "DELETE FROM Visa WHERE Name = @name";

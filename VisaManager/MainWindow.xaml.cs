@@ -81,9 +81,9 @@ namespace VisaManager
 
         // open window
 
-        private void PreviewCompanies_Click(object sender, RoutedEventArgs e)
+        private void AddVisa_Click(object sender, RoutedEventArgs e)
         {
-            var preview = new AddVisa();
+            AddVisa preview = new AddVisa();
             preview.ShowDialog();
         }
 
