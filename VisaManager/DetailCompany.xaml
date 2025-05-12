@@ -1,0 +1,72 @@
+﻿<Window x:Class="VisaManager.DetailCompany"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VisaManager"
+        mc:Ignorable="d"
+        Title="DetailCompany" Height="450" Width="800">
+    <Grid>
+        <StackPanel Margin="20" VerticalAlignment="Top">
+
+            <TextBlock Text="Name:" FontWeight="Bold"/>
+            <TextBlock x:Name="NameLabel" Margin="0,0,0,10"/>
+
+            <TextBlock Text="Passport Number:" FontWeight="Bold"/>
+            <TextBlock x:Name="ContactLabel" Margin="0,0,0,10"/>
+
+            <TextBlock Text="Email:" FontWeight="Bold"/>
+            <TextBlock x:Name="EmailLabel" Margin="0,0,0,10"/>
+
+            <TextBlock>
+                <Run Text="Akta: " />
+                <Hyperlink x:Name="AktaLink" Click="OpenFile_Click">Open</Hyperlink>
+            </TextBlock>
+            <TextBlock>
+                <Run Text="SK: " />
+                <Hyperlink x:Name="SKLink" Click="OpenFile_Click">Open</Hyperlink>
+            </TextBlock>
+
+            <TextBlock>
+                <Run Text="NIB: " />
+                <Hyperlink x:Name="NIBLink" Click="OpenFile_Click">Open</Hyperlink>
+            </TextBlock>
+
+            <TextBlock>
+                <Run Text="NPWP: " />
+                <Hyperlink x:Name="NPWPLink" Click="OpenFile_Click">Open</Hyperlink>
+            </TextBlock>
+
+            <TextBlock>
+                <Run Text="Doc 1: " />
+                <Hyperlink x:Name="Doc1Link" Click="OpenFile_Click">Open</Hyperlink>
+            </TextBlock>
+
+            <TextBlock>
+                <Run Text="Doc 2: " />
+                <Hyperlink x:Name="Doc2Link" Click="OpenFile_Click">Open</Hyperlink>
+            </TextBlock>
+
+            <TextBlock>
+                <Run Text="Doc 3: " />
+                <Hyperlink x:Name="Doc3Link" Click="OpenFile_Click">Open</Hyperlink>
+            </TextBlock>
+
+            <TextBlock>
+                <Run Text="Doc 4: " />
+                <Hyperlink x:Name="Doc4Link" Click="OpenFile_Click">Open</Hyperlink>
+            </TextBlock>
+
+            <TextBlock>
+                <Run Text="Doc 5: " />
+                <Hyperlink x:Name="Doc5Link" Click="OpenFile_Click">Open</Hyperlink>
+            </TextBlock>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
+            <Button Content="Edit" Click="EditButton_Click" Margin="5"/>
+            <Button Content="Delete" Click="DeleteButton_Click" Margin="5"/>
+        </StackPanel>
+
+
+        </StackPanel>
+    </Grid>
+</Window>
