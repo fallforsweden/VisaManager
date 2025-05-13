@@ -46,6 +46,8 @@
                FontWeight="Bold"/>
             </Grid>
 
+            <TextBlock Text="Company" />
+            <ComboBox x:Name="CompanyComboBox" Width="200" Height="25" Margin="10" />
 
             <TextBlock Text="Expire Date" />
             <DatePicker x:Name="ExpireDatePicker" Margin="0,0,0,10"/>

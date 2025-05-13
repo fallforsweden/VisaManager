@@ -39,18 +39,10 @@ namespace VisaManager
                 var reader = cmd.ExecuteReader();
                 if (reader.Read())
                 {
-                    // Show all the details - assign to labels or TextBlocks
                     NameLabel.Text = reader["Name"].ToString();
                     ContactLabel.Text = reader["Contact"].ToString();
                     EmailLabel.Text = reader["Email"].ToString();
-                    // You can also handle paths to display documents/images
-
-                    originalName = NameLabel.Text;
-                    originalContact = ContactLabel.Text;
-                    originalEmail = EmailLabel.Text;
-
-                }
-                AktaLink.Tag = reader["Akta"].ToString();
+                    AktaLink.Tag = reader["Akta"].ToString();
                     SKLink.Tag = reader["SK"].ToString();
                     NIBLink.Tag = reader["NIB"].ToString();
                     NPWPLink.Tag = reader["NPWP"].ToString();
@@ -59,6 +51,12 @@ namespace VisaManager
                     Doc3Link.Tag = reader["Doc3"].ToString();
                     Doc4Link.Tag = reader["Doc4"].ToString();
                     Doc5Link.Tag = reader["Doc5"].ToString();
+
+                    originalName = NameLabel.Text;
+                    originalContact = ContactLabel.Text;
+                    originalEmail = EmailLabel.Text;
+
+                }
                     reader.Close();
             }
         }
@@ -191,5 +189,42 @@ namespace VisaManager
         {
             ReplaceDocument("Akta", AktaLink);
         }
+
+        private void ReplaceSK_Click(object sender, RoutedEventArgs e)
+        {
+            ReplaceDocument("SK", SKLink);
+        }
+
+        private void ReplaceNIB_Click(object sender, RoutedEventArgs e)
+        {
+            ReplaceDocument("NIB", NIBLink);
+        }
+
+        private void ReplaceNPWP_Click(object sender, RoutedEventArgs e)
+        {
+            ReplaceDocument("NPWP", NPWPLink);
+        }
+
+        private void ReplaceDoc1_Click(object sender, RoutedEventArgs e)
+        {
+            ReplaceDocument("Doc1", Doc1Link);
+        }
+        private void ReplaceDoc2_Click(object sender, RoutedEventArgs e)
+        {
+            ReplaceDocument("Doc2", Doc2Link);
+        }
+        private void ReplaceDoc3_Click(object sender, RoutedEventArgs e)
+        {
+            ReplaceDocument("Doc3", Doc3Link);
+        }
+        private void ReplaceDoc4_Click(object sender, RoutedEventArgs e)
+        {
+            ReplaceDocument("Doc4", Doc4Link);
+        }
+        private void ReplaceDoc5_Click(object sender, RoutedEventArgs e)
+        {
+            ReplaceDocument("Doc5", Doc5Link);
+        }
+
     }
 }

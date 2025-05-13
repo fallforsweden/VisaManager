@@ -21,6 +21,7 @@ namespace VisaManager
             LoadVisaTypes();
             LoadCountryList();
             LoadClientData();
+            LoadCompanies();
         }
 
         private void LoadVisaTypes()
@@ -36,6 +37,24 @@ namespace VisaManager
                     VisaComboBox.Items.Add(reader["Name"].ToString());
                 }
                 reader.Close();
+            }
+        }
+
+        private void LoadCompanies()
+        {
+            CompanyComboBox.Items.Clear();
+
+            using (var conn = new SQLiteConnection("Data Source=Database/mydata.sqlite;Version=3;"))
+            {
+                conn.Open();
+                var cmd = new SQLiteCommand("SELECT Name FROM Company", conn);
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    string companyName = reader["Name"].ToString();
+                    CompanyComboBox.Items.Add(companyName);
+                }
             }
         }
 

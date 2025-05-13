@@ -2,14 +2,15 @@
 using System.Data.SQLite;
 using System.IO;
 using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Media.Imaging;
+using System.Xml;
 
 namespace VisaManager
 {
     public partial class DetailClient : Window
     {
         private string clientName;
-
 
         public DetailClient(string name)
         {
@@ -27,7 +28,6 @@ namespace VisaManager
                 cmd.Parameters.AddWithValue("@name", clientName);
                 using (var reader = cmd.ExecuteReader())
                 {
-
                     if (reader.Read())
                     {
                         NameText.Text = reader["Name"].ToString();
@@ -36,24 +36,12 @@ namespace VisaManager
                         ExpireDateText.Text = reader["ExpireDate"].ToString();
                         PassportNumberText.Text = reader["PassportNo"].ToString();
                         CountryText.Text = reader["CountryOrigin"].ToString();
-
-                        string passportPath = reader["PassportPath"].ToString();
-                        if (File.Exists(passportPath))
-                        {
-                            if (passportPath.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase))
-                            {
-                                // Load a default PDF icon thumbnail
-                                PassportImage.Source = new BitmapImage(new Uri("pack://application:,,,/Assets/pdf_icon.png"));
-                            }
-                            else
-                            {
-                                PassportImage.Source = new BitmapImage(new Uri(passportPath));
-                            }
-                        }
+                        PassportLink.Tag = reader["PassportFile"].ToString();
+                        CompanyText.Text = reader["Company"].ToString();
                     }
                     reader.Close();
                 }
-                }
+            }
         }
 
         private void Edit_Click(object sender, RoutedEventArgs e)
@@ -63,7 +51,6 @@ namespace VisaManager
 
             if (result == true)
             {
-                // In case the name has changed, reload the new name
                 clientName = editWindow.UpdatedClientName;
                 LoadClientDetails();
             }
@@ -74,7 +61,7 @@ namespace VisaManager
             var result = MessageBox.Show("Are you sure you want to delete this client?", "Confirm Delete", MessageBoxButton.YesNo, MessageBoxImage.Warning);
             if (result == MessageBoxResult.Yes)
             {
-                using (var conn = new SQLiteConnection("Data Source=mydata.sqlite;Version=3;"))
+                using (var conn = new SQLiteConnection("Data Source=Database/mydata.sqlite;Version=3;"))
                 {
                     conn.Open();
                     var cmd = new SQLiteCommand("DELETE FROM Clients WHERE Name = @name", conn);
@@ -87,35 +74,33 @@ namespace VisaManager
             }
         }
 
-        private void PassportImage_Click(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void OpenFile_Click(object sender, RoutedEventArgs e)
         {
-            if (PassportImage.Source is BitmapImage bmp && bmp.UriSource != null)
+            if (sender is Hyperlink link && link.Tag is string filePath)
             {
-                string filePath = bmp.UriSource.LocalPath;
-
-                if (filePath.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase))
+                try
                 {
-                    try
+                    if (File.Exists(filePath))
                     {
                         System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
                         {
                             FileName = filePath,
-                            UseShellExecute = true // 👈 opens with default app
+                            UseShellExecute = true // open with default app
                         });
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        MessageBox.Show("Failed to open PDF: " + ex.Message);
+                        MessageBox.Show("File not found: " + filePath);
                     }
                 }
-                else
+                catch (Exception ex)
                 {
-                    ImageViewer viewer = new ImageViewer(filePath);
-                    viewer.Owner = this;
-                    viewer.ShowDialog();
+                    MessageBox.Show("Failed to open file: " + ex.Message);
                 }
             }
         }
+
+     
 
 
 

@@ -18,6 +18,5 @@
                 <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-
     </Grid>
 </Window>

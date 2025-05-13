@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VisaManager"
         mc:Ignorable="d"
-        Title="DetailCompany" Height="450" Width="800">
+        Title="DetailCompany" Height="850" Width="800">
     <Grid>
         <StackPanel Margin="20" VerticalAlignment="Top">
 
@@ -19,51 +19,76 @@
             <TextBox x:Name="EmailLabel" Margin="0,0,0,10" IsReadOnly="True"/>
 
             <TextBlock>
-        <Run Text="Akta: " />
-        <Hyperlink x:Name="AktaLink" Click="OpenFile_Click">Open</Hyperlink>
+                <Run Text="Akta: " />
+                <Hyperlink x:Name="AktaLink" Click="OpenFile_Click">Open</Hyperlink>
             </TextBlock>
-            <Button Content="Replace" Click="ReplaceAkta_Click" Margin="5,0,0,0"/>
+            
+            <Button Content="Replace Akta" Click="ReplaceAkta_Click" Margin="5,0,0,0"/>
+            
             <TextBlock>
-                <Run Text="SK: " />
+                <Run Text="SK Kemenkumham: " />
                 <Hyperlink x:Name="SKLink" Click="OpenFile_Click">Open</Hyperlink>
             </TextBlock>
+
+            <Button Content="Replace SK Kemenkumham" Click="ReplaceSK_Click" Margin="5,0,0,0"/>
 
             <TextBlock>
                 <Run Text="NIB: " />
                 <Hyperlink x:Name="NIBLink" Click="OpenFile_Click">Open</Hyperlink>
             </TextBlock>
 
+            <Button Content="Replace NIB" Click="ReplaceNIB_Click" Margin="5,0,0,0"/>
+
+
             <TextBlock>
                 <Run Text="NPWP: " />
                 <Hyperlink x:Name="NPWPLink" Click="OpenFile_Click">Open</Hyperlink>
             </TextBlock>
+
+            <Button Content="Replace NPWP" Click="ReplaceNPWP_Click" Margin="5,0,0,0"/>
+
 
             <TextBlock>
                 <Run Text="Doc 1: " />
                 <Hyperlink x:Name="Doc1Link" Click="OpenFile_Click">Open</Hyperlink>
             </TextBlock>
 
+            <Button Content="Replace Doc 1" Click="ReplaceDoc1_Click" Margin="5,0,0,0"/>
+
+
             <TextBlock>
                 <Run Text="Doc 2: " />
                 <Hyperlink x:Name="Doc2Link" Click="OpenFile_Click">Open</Hyperlink>
             </TextBlock>
+
+            <Button Content="Replace Doc 2" Click="ReplaceDoc2_Click" Margin="5,0,0,0"/>
+
 
             <TextBlock>
                 <Run Text="Doc 3: " />
                 <Hyperlink x:Name="Doc3Link" Click="OpenFile_Click">Open</Hyperlink>
             </TextBlock>
 
+            <Button Content="Replace Doc 3" Click="ReplaceDoc3_Click" Margin="5,0,0,0"/>
+
+
             <TextBlock>
                 <Run Text="Doc 4: " />
                 <Hyperlink x:Name="Doc4Link" Click="OpenFile_Click">Open</Hyperlink>
             </TextBlock>
 
+            <Button Content="Replace Doc 4" Click="ReplaceDoc4_Click" Margin="5,0,0,0"/>
+
+
             <TextBlock>
                 <Run Text="Doc 5: " />
                 <Hyperlink x:Name="Doc5Link" Click="OpenFile_Click">Open</Hyperlink>
             </TextBlock>
-            
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
+
+            <Button Content="Replace Doc 5" Click="ReplaceDoc5_Click" Margin="5,0,0,0"/>
+
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
                 <Button x:Name="EditSaveButton" Content="Edit" Click="EditButton_Click" />
 
                 <Button Content="Delete" Click="DeleteButton_Click" Margin="5"/>

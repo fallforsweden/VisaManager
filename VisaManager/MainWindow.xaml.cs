@@ -42,9 +42,11 @@ namespace VisaManager
                     VisaType TEXT,
                     ExpireDate TEXT,
                     PassportFile TEXT,
+                    Company TEXT,
                     CountryOrigin TEXT,
                     PassportPath TEXT,
                     FOREIGN KEY (VisaType) REFERENCES Visa(Name)
+                    FOREIGN KEY (Company) REFERENCES Company(Name)
                 );";
 
                 string companyTable = @"

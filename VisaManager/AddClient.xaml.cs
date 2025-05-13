@@ -4,6 +4,7 @@ using System.Data.SQLite;
 using System.IO;
 using System.Windows;
 using Microsoft.Win32;
+using static VisaManager.PreviewCompany;
 
 namespace VisaManager
 {
@@ -16,6 +17,7 @@ namespace VisaManager
             InitializeComponent();
             LoadVisaTypes();
             LoadCountries();
+            LoadCompanies();
         }
 
         private class VisaInfo
@@ -25,6 +27,7 @@ namespace VisaManager
         }
 
         private Dictionary<string, VisaInfo> visaData = new();
+        
 
         private void LoadVisaTypes()
         {
@@ -44,6 +47,24 @@ namespace VisaManager
                     int validDays = Convert.ToInt32(reader["ExpireDate"]);
                     visaData[name] = new VisaInfo { Requirement = requirement, ValidDays = validDays };
                     VisaTypeComboBox.Items.Add(name);
+                }
+            }
+        }
+
+        private void LoadCompanies()
+        {
+            CompanyComboBox.Items.Clear();
+
+            using (var conn = new SQLiteConnection("Data Source=Database/mydata.sqlite;Version=3;"))
+            {
+                conn.Open();
+                var cmd = new SQLiteCommand("SELECT Name FROM Company", conn);
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    string companyName = reader["Name"].ToString();
+                    CompanyComboBox.Items.Add(companyName);
                 }
             }
         }
@@ -117,6 +138,7 @@ namespace VisaManager
             string email = EmailTextBox.Text.Trim();
             string visaType = VisaTypeComboBox.SelectedItem?.ToString();
             string country = CountryComboBox.SelectedItem?.ToString();
+            string company = CompanyComboBox.SelectedItem?.ToString();
             DateTime? expireDate = ExpireDatePicker.SelectedDate;
 
             if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(passportNo) ||
@@ -127,24 +149,23 @@ namespace VisaManager
                 return;
             }
 
-            // Save file to local folder
             string folder = @"C:\VisaManager";
             Directory.CreateDirectory(folder);
             string newFileName = $"{passportNo}_{Path.GetFileName(passportFilePath)}";
             string destPath = Path.Combine(folder, newFileName);
             File.Copy(passportFilePath, destPath, true);
 
-            // Save to database (file path only)
             using (var conn = new SQLiteConnection("Data Source=Database/mydata.sqlite;Version=3;"))
             {
                 conn.Open();
-                var cmd = new SQLiteCommand("INSERT INTO Clients (Name, PassportNo, Email, VisaType, ExpireDate, CountryOrigin, PassportPath) VALUES (@name, @passport, @email, @visa, @expire, @country, @path)", conn);
+                var cmd = new SQLiteCommand("INSERT INTO Clients (Name, PassportNo, Email, VisaType, ExpireDate, CountryOrigin, Company, PassportFile) VALUES (@name, @passport, @email, @visa, @expire, @country, @company, @path)", conn);
                 cmd.Parameters.AddWithValue("@name", name);
                 cmd.Parameters.AddWithValue("@passport", passportNo);
                 cmd.Parameters.AddWithValue("@email", email);
                 cmd.Parameters.AddWithValue("@visa", visaType);
                 cmd.Parameters.AddWithValue("@expire", expireDate.Value.ToString("yyyy-MM-dd"));
                 cmd.Parameters.AddWithValue("@country", country);
+                cmd.Parameters.AddWithValue("@company", company);
                 cmd.Parameters.AddWithValue("@path", destPath);
                 cmd.ExecuteNonQuery();
             }
