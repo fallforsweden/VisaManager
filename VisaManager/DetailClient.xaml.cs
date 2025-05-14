@@ -31,13 +31,18 @@ namespace VisaManager
                     if (reader.Read())
                     {
                         NameText.Text = reader["Name"].ToString();
+                        PassportNumberText.Text = reader["PassportNo"].ToString();
                         EmailText.Text = reader["Email"].ToString();
                         VisaTypeText.Text = reader["VisaType"].ToString();
                         ExpireDateText.Text = reader["ExpireDate"].ToString();
-                        PassportNumberText.Text = reader["PassportNo"].ToString();
                         CountryText.Text = reader["CountryOrigin"].ToString();
-                        PassportLink.Tag = reader["PassportFile"].ToString();
                         CompanyText.Text = reader["Company"].ToString();
+                        PassportLink.Tag = reader["Passport"].ToString();
+                        PasPhotoLink.Tag = reader["PasPhoto"].ToString();
+                        RekeningLink.Tag = reader["Rekening"].ToString();
+                        KTPLink.Tag = reader["KTP"].ToString();
+                        PermohonanLink.Tag = reader["Permohonan"].ToString();
+                        NPWPLink.Tag = reader["NPWP"].ToString();
                     }
                     reader.Close();
                 }

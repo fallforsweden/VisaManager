@@ -1,29 +1,60 @@
 ﻿<Window x:Class="VisaManager.PreviewClients"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Preview Clients" Height="450" Width="600">
-    <Grid>
+        Title="Preview Clients"
+        Height="500"
+        Width="800"
+        Background="#f4f6fa"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <Style TargetType="DataGrid">
+            <Setter Property="Margin" Value="20"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="RowBackground" Value="#f0f4f8"/>
+            <Setter Property="AlternatingRowBackground" Value="#e2e8f0"/>
+            <Setter Property="BorderBrush" Value="#d0d7de"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="RowHeight" Value="40"/>
+        </Style>
+
+        <Style TargetType="DataGridRow">
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="ToolTip" Value="Double click to view client details"/>
+        </Style>
+
+        <Style TargetType="TextBlock" x:Key="ClickableName">
+            <Setter Property="Foreground" Value="#007acc"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="TextDecorations" Value="Underline"/>
+        </Style>
+    </Window.Resources>
+
+    <DockPanel>
+        <Border Background="#007acc" Height="60" DockPanel.Dock="Top" Padding="10">
+            <TextBlock Text="🧑‍💼 Client Preview Dashboard" Foreground="White" FontSize="20" VerticalAlignment="Center"/>
+        </Border>
+
         <DataGrid x:Name="ClientsDataGrid"
                   AutoGenerateColumns="False"
-                  IsReadOnly="True"
                   LoadingRow="ClientsDataGrid_LoadingRow"
-                  Margin="10">
-
+                  IsReadOnly="True"
+                  CanUserAddRows="False">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Name" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Name}"
-                       Foreground="Blue"
-                       Cursor="Hand"
-                       TextDecorations="Underline"
-                       MouseLeftButtonUp="Name_Click"/>
+                                       Style="{StaticResource ClickableName}"
+                                       MouseLeftButtonDown="Name_Click"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Expire Date" Binding="{Binding ExpireDate}" Width="*"/>
-                <DataGridTextColumn Header="Country" Binding="{Binding Country}" Width="*"/>
+
+                <DataGridTextColumn Header="Country" Binding="{Binding Country}" Width="150"/>
+                <DataGridTextColumn Header="Expire Date" Binding="{Binding ExpireDate}" Width="150"/>
             </DataGrid.Columns>
         </DataGrid>
-    </Grid>
+    </DockPanel>
 </Window>

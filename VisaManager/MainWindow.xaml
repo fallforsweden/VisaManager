@@ -5,15 +5,52 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VisaManager"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="1024">
+        Title="Visa Manager" Height="450" Width="800"
+        Background="#f2f4f8"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Background" Value="#4CAF50"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="8"
+                                SnapsToDevicePixels="True">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#388E3C"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
     <Grid>
-        <Button Content="Add Visa" Click="AddVisa_Click" Width="150" Margin="568,234,82,116"/>
-        <Button Content="View Visa List" Click="OpenVisaList_Click" Width="150" Margin="568,337,82,21"/>
-        <Button Content="input client" Click="OpenAddClient" Width="150" Margin="568,34,82,320"/>
-        <Button Content="preview client" Click="OpenPreviewClient" Width="150" Margin="680,138,194,217"/>
-        <Button Content="new company" Click="OpenAddCompany" Width="150" Margin="457,138,417,217"/>
-        <Button Content="Preview company" Click="OpenPreviewCompany" Width="150" Margin="457,261,417,94"/>
-
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock Text="Visa Manager Dashboard" FontSize="24" FontWeight="Bold" Margin="0 0 0 20" HorizontalAlignment="Center"/>
+            <WrapPanel HorizontalAlignment="Center">
+                <Button Content="Add Visa" Click="AddVisa_Click"/>
+                <Button Content="View Visa List" Click="OpenVisaList_Click"/>
+                <Button Content="Input Client" Click="OpenAddClient"/>
+                <Button Content="Preview Client" Click="OpenPreviewClient"/>
+                <Button Content="New Company" Click="OpenAddCompany"/>
+                <Button Content="Preview Company" Click="OpenPreviewCompany"/>
+            </WrapPanel>
+        </StackPanel>
     </Grid>
-
-</Window>   
+</Window>
