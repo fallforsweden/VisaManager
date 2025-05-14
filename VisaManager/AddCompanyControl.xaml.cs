@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SQLite;
+﻿using System.Data.SQLite;
 using System.IO;
 using System.Windows;
 using Microsoft.Win32;
+using System.Windows.Controls;
+
 
 namespace VisaManager
 {
     /// <summary>
-    /// Interaction logic for AddCompany.xaml
+    /// Interaction logic for AddCompanyControl.xaml
     /// </summary>
-    public partial class AddCompany : Window
+    public partial class AddCompanyControl : UserControl
     {
-        public AddCompany()
+        public AddCompanyControl()
         {
             InitializeComponent();
         }
@@ -154,7 +154,6 @@ namespace VisaManager
             }
 
             MessageBox.Show("Company saved successfully!");
-            this.Close();
         }
     }
 }

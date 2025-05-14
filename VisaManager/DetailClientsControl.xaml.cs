@@ -5,15 +5,27 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media.Imaging;
 using System.Xml;
+using MaterialDesignThemes.Wpf;
+using System.Text;
+using System.Windows.Media;
+using System.Collections.Generic;
+using System.Globalization;
+using static MaterialDesignThemes.Wpf.Theme;
+using System.Windows.Controls;
+using System.Xml.Linq;
+
 
 namespace VisaManager
 {
-    public partial class DetailClient : Window
+    /// <summary>
+    /// Interaction logic for DetailClientsControl.xaml
+    /// </summary>
+    public partial class DetailClientsControl : UserControl
     {
+
         private string clientName;
         public bool ClientWasModified { get; private set; } = false;
-
-        public DetailClient(string name)
+        public DetailClientsControl(string name)
         {
             InitializeComponent();
             clientName = name;
@@ -77,13 +89,12 @@ namespace VisaManager
 
                 MessageBox.Show("Client deleted successfully!");
                 ClientWasModified = true;
-                this.Close(); // Close the detail window
             }
         }
 
         private void OpenFile_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Hyperlink link && link.Tag is string filePath)
+            if (sender is System.Windows.Controls.Button button && button.Tag is string filePath)
             {
                 try
                 {
@@ -92,7 +103,7 @@ namespace VisaManager
                         System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
                         {
                             FileName = filePath,
-                            UseShellExecute = true // open with default app
+                            UseShellExecute = true
                         });
                     }
                     else
@@ -106,13 +117,6 @@ namespace VisaManager
                 }
             }
         }
-
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
-
-
 
 
     }

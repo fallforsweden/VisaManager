@@ -4,21 +4,26 @@ using System.Data.SQLite;
 using System.IO;
 using System.Windows;
 using Microsoft.Win32;
+using System.Windows.Controls;
+using MaterialDesignThemes.Wpf;
+
 using static VisaManager.PreviewCompany;
 
 namespace VisaManager
 {
-    public partial class AddClient : Window
+    /// <summary>
+    /// Interaction logic for AddClientsControl.xaml
+    /// </summary>
+    public partial class AddClientsControl : UserControl
     {
-       
-
-        public AddClient()
+        public AddClientsControl()
         {
             InitializeComponent();
             LoadVisaTypes();
             LoadCountries();
             LoadCompanies();
         }
+
 
         private class VisaInfo
         {
@@ -227,7 +232,6 @@ namespace VisaManager
             }
 
             MessageBox.Show("Client saved successfully!");
-            this.Close();
         }
     }
 }

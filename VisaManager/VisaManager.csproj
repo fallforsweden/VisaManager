@@ -78,7 +78,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="AddClientsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="AddCompany.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddCompanyControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -86,7 +94,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="AddVisaControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddVisaDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="DetailClient.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DetailClientsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -95,6 +115,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DetailVisa.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DetailVisaControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -113,18 +137,37 @@
     <Compile Include="AddClient.xaml.cs">
       <DependentUpon>AddClient.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AddClientsControl.xaml.cs">
+      <DependentUpon>AddClientsControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AddCompany.xaml.cs">
       <DependentUpon>AddCompany.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AddCompanyControl.xaml.cs">
+      <DependentUpon>AddCompanyControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AddVisa.xaml.cs">
       <DependentUpon>AddVisa.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddVisaControl.xaml.cs">
+      <DependentUpon>AddVisaControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddVisaDialog.xaml.cs">
+      <DependentUpon>AddVisaDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BoolToStatusBrushConverter.cs" />
+    <Compile Include="BoolToStatusTextConverter.cs" />
+    <Compile Include="clientName.cs" />
+    <Compile Include="DaysLeftConverter.cs" />
     <Compile Include="DetailClient.xaml.cs">
       <DependentUpon>DetailClient.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DetailClientsControl.xaml.cs">
+      <DependentUpon>DetailClientsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="DetailCompany.xaml.cs">
       <DependentUpon>DetailCompany.xaml</DependentUpon>
@@ -132,9 +175,13 @@
     <Compile Include="DetailVisa.xaml.cs">
       <DependentUpon>DetailVisa.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DetailVisaControl.xaml.cs">
+      <DependentUpon>DetailVisaControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="EditClient.xaml.cs">
       <DependentUpon>EditClient.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ExpiryStatusConverter.cs" />
     <Compile Include="ImageViewer.xaml.cs">
       <DependentUpon>ImageViewer.xaml</DependentUpon>
     </Compile>
@@ -142,7 +189,15 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="MessageDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PreviewClients.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PreviewClientsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -150,20 +205,40 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="PreviewCompanyControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PreviewVisa.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PreviewVisaControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MessageDialog.xaml.cs">
+      <DependentUpon>MessageDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PreviewClients.xaml.cs">
       <DependentUpon>PreviewClients.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PreviewClientsControl.xaml.cs">
+      <DependentUpon>PreviewClientsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="PreviewCompany.xaml.cs">
       <DependentUpon>PreviewCompany.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PreviewCompanyControl.xaml.cs">
+      <DependentUpon>PreviewCompanyControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PreviewVisa.xaml.cs">
       <DependentUpon>PreviewVisa.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PreviewVisaControl.xaml.cs">
+      <DependentUpon>PreviewVisaControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -197,6 +272,12 @@
     <PackageReference Include="EntityFramework">
       <Version>6.5.1</Version>
     </PackageReference>
+    <PackageReference Include="MaterialDesignThemes">
+      <Version>5.2.1</Version>
+    </PackageReference>
+    <PackageReference Include="MaterialDesignThemes.Wpf">
+      <Version>1.0.1</Version>
+    </PackageReference>
     <PackageReference Include="System.Data.SQLite">
       <Version>1.0.119</Version>
     </PackageReference>
@@ -218,5 +299,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
