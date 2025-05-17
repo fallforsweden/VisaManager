@@ -1,5 +1,18 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 using System.Data.SQLite;
+
 namespace VisaManager
 {
     /// <summary>
@@ -23,20 +36,28 @@ namespace VisaManager
                 MessageBox.Show("Visa name and a valid number of days (1–1000) are required.");
                 return;
             }
- 
-                using (var conn = new SQLiteConnection("Data Source=Database/mydata.sqlite;Version=3;"))
+
+            try
+            {
+                using (SQLiteConnection conn = new SQLiteConnection("Data Source=Database/mydata.sqlite;Version=3;"))
                 {
-                conn.Open();
-                    using (var cmd = new SQLiteCommand("INSERT INTO Visa (Name, Requirement, ExpireDate) VALUES (@name, @requirement, @expireDate)", conn))
-                    {
-                        cmd.Parameters.AddWithValue("@name", visaName);
-                        cmd.Parameters.AddWithValue("@requirement", requirement);
-                        cmd.Parameters.AddWithValue("@expireDate", expireDate);
-                        cmd.ExecuteNonQuery();
-                    }
+                    conn.Open();
+                    string query = "INSERT INTO Visa (Name, Requirement, ExpireDate) VALUES (@name, @requirement, @expireDate)";
+                    SQLiteCommand cmd = new SQLiteCommand(query, conn);
+                    cmd.Parameters.AddWithValue("@name", visaName);
+                    cmd.Parameters.AddWithValue("@requirement", requirement);
+                    cmd.Parameters.AddWithValue("@expireDate", expireDate);
+                    cmd.ExecuteNonQuery();
+                    conn.Close();
                 }
+
                 MessageBox.Show("Visa added successfully!");
                 this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
         }
     }
 }

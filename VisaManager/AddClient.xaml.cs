@@ -10,7 +10,7 @@ namespace VisaManager
 {
     public partial class AddClient : Window
     {
-       
+        private string passportFilePath = "";
 
         public AddClient()
         {
@@ -27,6 +27,7 @@ namespace VisaManager
         }
 
         private Dictionary<string, VisaInfo> visaData = new();
+        
 
         private void LoadVisaTypes()
         {
@@ -68,6 +69,7 @@ namespace VisaManager
             }
         }
 
+
         private void VisaTypeComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             if (VisaTypeComboBox.SelectedItem != null)
@@ -85,6 +87,8 @@ namespace VisaManager
                 }
             }
         }
+
+
 
         private void LoadCountries()
         {
@@ -116,77 +120,16 @@ namespace VisaManager
             CountryComboBox.ItemsSource = countries;
         }
 
-        private void upload_passport(object sender, RoutedEventArgs e)
+        private void UploadFile_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Filter = "Image and PDF Files|*.jpg;*.jpeg;*.png;*.pdf";
             if (dlg.ShowDialog() == true)
             {
-                PassportPathText.Text = dlg.FileName;
+                passportFilePath = dlg.FileName;
+                PassportPathText.Text = passportFilePath;
             }
         }
-
-        private void upload_pasphoto(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Filter = "Image and PDF Files|*.jpg;*.jpeg;*.png;*.pdf";
-            if (dlg.ShowDialog() == true)
-            {
-                PasPhotoPathText.Text = dlg.FileName;
-            }
-        }
-
-        private void upload_rekening(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Filter = "Image and PDF Files|*.jpg;*.jpeg;*.png;*.pdf";
-            if (dlg.ShowDialog() == true)
-            {
-                RekeningPathText.Text = dlg.FileName;
-            }
-        }
-
-        private void upload_ktp(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Filter = "Image and PDF Files|*.jpg;*.jpeg;*.png;*.pdf";
-            if (dlg.ShowDialog() == true)
-            {
-                KTPPathText.Text = dlg.FileName;
-            }
-        }
-
-        private void upload_permohonan(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Filter = "Image and PDF Files|*.jpg;*.jpeg;*.png;*.pdf";
-            if (dlg.ShowDialog() == true)
-            {
-                PermohonanPathText.Text = dlg.FileName;
-            }
-        }
-
-        private void upload_npwp(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Filter = "Image and PDF Files|*.jpg;*.jpeg;*.png;*.pdf";
-            if (dlg.ShowDialog() == true)
-            {
-                NPWPPathText.Text = dlg.FileName;
-            }
-        }
-
-        private string CopyFile(string sourcePath, string label)
-        {
-            if (string.IsNullOrWhiteSpace(sourcePath) || !File.Exists(sourcePath)) return "";
-            string folder = @"C:\VisaManager";
-            Directory.CreateDirectory(folder);
-            string destFileName = $"{label}_{Path.GetFileName(sourcePath)}";
-            string destPath = Path.Combine(folder, destFileName);
-            File.Copy(sourcePath, destPath, true);
-            return destPath;
-        }
-
 
         private void SaveClient_Click(object sender, RoutedEventArgs e)
         {
@@ -200,29 +143,30 @@ namespace VisaManager
 
             if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(passportNo) ||
                 string.IsNullOrEmpty(email) || string.IsNullOrEmpty(visaType) ||
-                expireDate == null || string.IsNullOrEmpty(country))
+                expireDate == null || string.IsNullOrEmpty(country) || string.IsNullOrEmpty(passportFilePath))
             {
-                MessageBox.Show("Please fill in all fields");
+                MessageBox.Show("Please fill in all fields and upload a passport file.");
                 return;
             }
+
+            string folder = @"C:\VisaManager";
+            Directory.CreateDirectory(folder);
+            string newFileName = $"{passportNo}_{Path.GetFileName(passportFilePath)}";
+            string destPath = Path.Combine(folder, newFileName);
+            File.Copy(passportFilePath, destPath, true);
 
             using (var conn = new SQLiteConnection("Data Source=Database/mydata.sqlite;Version=3;"))
             {
                 conn.Open();
-                var cmd = new SQLiteCommand("INSERT INTO Clients (Name, PassportNo, Email, VisaType, ExpireDate, CountryOrigin, Company, Passport, PasPhoto, Rekening, KTP, Permohonan, NPWP) VALUES (@name, @noPassport, @email, @visa, @expire, @country, @company, @passport, @pasPhoto, @rekening, @ktp, @permohonan, @npwp)", conn);
+                var cmd = new SQLiteCommand("INSERT INTO Clients (Name, PassportNo, Email, VisaType, ExpireDate, CountryOrigin, Company, PassportFile) VALUES (@name, @passport, @email, @visa, @expire, @country, @company, @path)", conn);
                 cmd.Parameters.AddWithValue("@name", name);
-                cmd.Parameters.AddWithValue("@noPassport", passportNo);
+                cmd.Parameters.AddWithValue("@passport", passportNo);
                 cmd.Parameters.AddWithValue("@email", email);
                 cmd.Parameters.AddWithValue("@visa", visaType);
                 cmd.Parameters.AddWithValue("@expire", expireDate.Value.ToString("yyyy-MM-dd"));
                 cmd.Parameters.AddWithValue("@country", country);
                 cmd.Parameters.AddWithValue("@company", company);
-                cmd.Parameters.AddWithValue("@passport", CopyFile(PassportPathText.Text, "Passport"));
-                cmd.Parameters.AddWithValue("@pasPhoto", CopyFile(PasPhotoPathText.Text, "PasPhoto"));
-                cmd.Parameters.AddWithValue("@rekening", CopyFile(RekeningPathText.Text, "Rekening"));
-                cmd.Parameters.AddWithValue("@ktp", CopyFile(KTPPathText.Text, "KTP"));
-                cmd.Parameters.AddWithValue("@permohonan", CopyFile(PermohonanPathText.Text, "Permohonan"));
-                cmd.Parameters.AddWithValue("@npwp", CopyFile(NPWPPathText.Text, "NPWP"));
+                cmd.Parameters.AddWithValue("@path", destPath);
                 cmd.ExecuteNonQuery();
             }
 

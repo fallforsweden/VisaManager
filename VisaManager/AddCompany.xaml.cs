@@ -133,6 +133,7 @@ namespace VisaManager
                 return;
             }
 
+            // Save to database (file path only)
             using (var conn = new SQLiteConnection("Data Source=Database/mydata.sqlite;Version=3;"))
             {
                 conn.Open();
@@ -141,14 +142,14 @@ namespace VisaManager
                 cmd.Parameters.AddWithValue("@contact", contact);
                 cmd.Parameters.AddWithValue("@email", email);
                 cmd.Parameters.AddWithValue("@akta", CopyFile(AktaPathText.Text, "Akta"));
-                cmd.Parameters.AddWithValue("@sk", CopyFile(SKPathText.Text, "SK"));
-                cmd.Parameters.AddWithValue("@nib", CopyFile(NIBPathText.Text, "NIB"));
-                cmd.Parameters.AddWithValue("@npwp", CopyFile(NPWPPathText.Text, "NPWP"));
-                cmd.Parameters.AddWithValue("@doc1", CopyFile(Doc1PathText.Text, "Doc1"));
-                cmd.Parameters.AddWithValue("@doc2", CopyFile(Doc2PathText.Text, "Doc2"));
-                cmd.Parameters.AddWithValue("@doc3", CopyFile(Doc3PathText.Text, "Doc3"));
-                cmd.Parameters.AddWithValue("@doc4", CopyFile(Doc4PathText.Text, "Doc4"));
-                cmd.Parameters.AddWithValue("@doc5", CopyFile(Doc5PathText.Text, "Doc5"));
+                cmd.Parameters.AddWithValue("@sk", SKPathText.Text);
+                cmd.Parameters.AddWithValue("@nib", NIBPathText.Text);
+                cmd.Parameters.AddWithValue("@npwp", NPWPPathText.Text);
+                cmd.Parameters.AddWithValue("@doc1", Doc1PathText.Text);
+                cmd.Parameters.AddWithValue("@doc2", Doc2PathText.Text);
+                cmd.Parameters.AddWithValue("@doc3", Doc3PathText.Text);
+                cmd.Parameters.AddWithValue("@doc4", Doc4PathText.Text);
+                cmd.Parameters.AddWithValue("@doc5", Doc5PathText.Text);
 
                 cmd.ExecuteNonQuery();
             }

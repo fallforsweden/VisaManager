@@ -11,7 +11,6 @@ namespace VisaManager
     public partial class DetailClient : Window
     {
         private string clientName;
-        public bool ClientWasModified { get; private set; } = false;
 
         public DetailClient(string name)
         {
@@ -32,18 +31,13 @@ namespace VisaManager
                     if (reader.Read())
                     {
                         NameText.Text = reader["Name"].ToString();
-                        PassportNumberText.Text = reader["PassportNo"].ToString();
                         EmailText.Text = reader["Email"].ToString();
                         VisaTypeText.Text = reader["VisaType"].ToString();
                         ExpireDateText.Text = reader["ExpireDate"].ToString();
+                        PassportNumberText.Text = reader["PassportNo"].ToString();
                         CountryText.Text = reader["CountryOrigin"].ToString();
+                        PassportLink.Tag = reader["PassportFile"].ToString();
                         CompanyText.Text = reader["Company"].ToString();
-                        PassportLink.Tag = reader["Passport"].ToString();
-                        PasPhotoLink.Tag = reader["PasPhoto"].ToString();
-                        RekeningLink.Tag = reader["Rekening"].ToString();
-                        KTPLink.Tag = reader["KTP"].ToString();
-                        PermohonanLink.Tag = reader["Permohonan"].ToString();
-                        NPWPLink.Tag = reader["NPWP"].ToString();
                     }
                     reader.Close();
                 }
@@ -76,7 +70,6 @@ namespace VisaManager
                 }
 
                 MessageBox.Show("Client deleted successfully!");
-                ClientWasModified = true;
                 this.Close(); // Close the detail window
             }
         }
@@ -107,10 +100,7 @@ namespace VisaManager
             }
         }
 
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
+     
 
 
 
