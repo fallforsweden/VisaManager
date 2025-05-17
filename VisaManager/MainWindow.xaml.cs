@@ -2,6 +2,13 @@
 using System.Windows;
 using System.Data.SQLite;
 using System.IO;
+using System.Windows.Controls;
+using MaterialDesignThemes.Wpf;
+using System.Text;
+using System.Windows.Media;
+using System.Collections.Generic;
+using System.Globalization;
+using static MaterialDesignThemes.Wpf.Theme;
 
 namespace VisaManager
 {
@@ -10,9 +17,23 @@ namespace VisaManager
     /// </summary>
     public partial class MainWindow : Window
     {
+
+
+        public class ClientInfo
+        {
+            public string Name { get; set; }
+            public string ExpireDate { get; set; }
+            public string Country { get; set; }
+        }
+
+        public List<ClientInfo> ExpiringClients { get; private set; } = new();
+        public SnackbarMessageQueue MessageQueue { get; }
+
         public MainWindow()
         {
             InitializeComponent();
+            MessageQueue = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
+            MySnackbar.MessageQueue = MessageQueue;
 
             string dbPath = "Database/mydata.sqlite";
 
@@ -41,10 +62,14 @@ namespace VisaManager
                     Email TEXT,
                     VisaType TEXT,
                     ExpireDate TEXT,
-                    PassportFile TEXT,
                     Company TEXT,
                     CountryOrigin TEXT,
-                    PassportPath TEXT,
+                    Passport TEXT,
+                    PasPhoto TEXT, 
+                    Rekening TEXT,
+                    KTP TEXT,
+                    Permohonan TEXT,
+                    NPWP TEXT,
                     FOREIGN KEY (VisaType) REFERENCES Visa(Name)
                     FOREIGN KEY (Company) REFERENCES Company(Name)
                 );";
@@ -83,39 +108,90 @@ namespace VisaManager
 
         // open window
 
+        private void ShowContent(UserControl control)
+        {
+            // Clear existing content
+            ContentPanel.Children.Clear();
+            // Add new content
+            ContentPanel.Children.Add(control);
+        }
+
         private void AddVisa_Click(object sender, RoutedEventArgs e)
         {
-            AddVisa preview = new AddVisa();
-            preview.ShowDialog();
+            ShowContent(new AddVisaControl());
         }
 
         private void OpenVisaList_Click(object sender, RoutedEventArgs e)
         {
-            PreviewVisa preview = new PreviewVisa();
-            preview.ShowDialog();
+            ShowContent(new PreviewVisaControl());
         }
 
         private void OpenAddClient(object sender, RoutedEventArgs e)
         {
-            AddClient preview = new AddClient();
-            preview.ShowDialog();
+            ShowContent(new AddClientsControl());
         }
         private void OpenPreviewClient(object sender, RoutedEventArgs e)
         {
-            PreviewClients preview = new PreviewClients();
-            preview.ShowDialog();
+            ShowContent(new PreviewClientsControl());
         }
 
         private void OpenAddCompany(object sender, RoutedEventArgs e)
         {
-            AddCompany preview = new AddCompany();
-            preview.ShowDialog();
+            ShowContent(new AddCompanyControl());
         }
 
         private void OpenPreviewCompany(object sender, RoutedEventArgs e)
         {
-            PreviewCompany preview = new PreviewCompany();
-            preview.ShowDialog();
+            ShowContent(new PreviewCompanyControl());
+        }
+
+
+        public void ShowSnackbar(string message)
+        {
+            MessageQueue.Enqueue(message);
+        }
+
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            CheckExpiringClients();
+        }
+
+        private void CheckExpiringClients()
+        {
+            var expiringCount = 0;
+
+            using (var conn = new SQLiteConnection("Data Source=Database/mydata.sqlite;Version=3;"))
+            {
+                conn.Open();
+                var cmd = new SQLiteCommand("SELECT ExpireDate FROM Clients", conn);
+                var reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    var expireDateStr = reader["ExpireDate"].ToString();
+                    if (DateTime.TryParseExact(expireDateStr, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime expireDate))
+                    {
+                        int daysLeft = (expireDate - DateTime.Now).Days;
+                        if (daysLeft <= 30)
+                        {
+                            expiringCount++;
+                        }
+                    }
+                }
+            }
+
+            NotifyExpiringButton.Visibility = expiringCount > 0 ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private void NotifyExpiringButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Some clients have visas expiring within 30 days. Please check the preview list!", "Heads up!", MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
+
+        public void NavigateTo(UserControl control)
+        {
+            ContentPanel.Children.Clear(); ContentPanel.Children.Add(control);
         }
     }
 }

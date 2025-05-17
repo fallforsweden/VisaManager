@@ -5,14 +5,26 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media.Imaging;
 using System.Xml;
+using MaterialDesignThemes.Wpf;
+using System.Text;
+using System.Windows.Media;
+using System.Collections.Generic;
+using System.Globalization;
+using static MaterialDesignThemes.Wpf.Theme;
+using System.Windows.Controls;
+
 
 namespace VisaManager
 {
-    public partial class DetailClient : Window
+    /// <summary>
+    /// Interaction logic for DetailClientsControl.xaml
+    /// </summary>
+    public partial class DetailClientsControl : UserControl
     {
-        private string clientName;
 
-        public DetailClient(string name)
+        private string clientName;
+        public bool ClientWasModified { get; private set; } = false;
+        public DetailClientsControl(string name)
         {
             InitializeComponent();
             clientName = name;
@@ -31,13 +43,18 @@ namespace VisaManager
                     if (reader.Read())
                     {
                         NameText.Text = reader["Name"].ToString();
+                        PassportNumberText.Text = reader["PassportNo"].ToString();
                         EmailText.Text = reader["Email"].ToString();
                         VisaTypeText.Text = reader["VisaType"].ToString();
                         ExpireDateText.Text = reader["ExpireDate"].ToString();
-                        PassportNumberText.Text = reader["PassportNo"].ToString();
                         CountryText.Text = reader["CountryOrigin"].ToString();
-                        PassportLink.Tag = reader["PassportFile"].ToString();
                         CompanyText.Text = reader["Company"].ToString();
+                        PassportLink.Tag = reader["Passport"].ToString();
+                        PasPhotoLink.Tag = reader["PasPhoto"].ToString();
+                        RekeningLink.Tag = reader["Rekening"].ToString();
+                        KTPLink.Tag = reader["KTP"].ToString();
+                        PermohonanLink.Tag = reader["Permohonan"].ToString();
+                        NPWPLink.Tag = reader["NPWP"].ToString();
                     }
                     reader.Close();
                 }
@@ -46,14 +63,13 @@ namespace VisaManager
 
         private void Edit_Click(object sender, RoutedEventArgs e)
         {
-            EditClient editWindow = new EditClient(clientName);
-            bool? result = editWindow.ShowDialog();
+            // Clear any existing content
+            var parent = Parent as Panel;
+            parent?.Children.Clear();
 
-            if (result == true)
-            {
-                clientName = editWindow.UpdatedClientName;
-                LoadClientDetails();
-            }
+            // Add the edit control
+            var editControl = new EditClientControl(clientName);
+            parent?.Children.Add(editControl);
         }
 
         private void Delete_Click(object sender, RoutedEventArgs e)
@@ -70,13 +86,13 @@ namespace VisaManager
                 }
 
                 MessageBox.Show("Client deleted successfully!");
-                this.Close(); // Close the detail window
+                ClientWasModified = true;
             }
         }
 
         private void OpenFile_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Hyperlink link && link.Tag is string filePath)
+            if (sender is System.Windows.Controls.Button button && button.Tag is string filePath)
             {
                 try
                 {
@@ -85,7 +101,7 @@ namespace VisaManager
                         System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
                         {
                             FileName = filePath,
-                            UseShellExecute = true // open with default app
+                            UseShellExecute = true
                         });
                     }
                     else
@@ -99,10 +115,6 @@ namespace VisaManager
                 }
             }
         }
-
-     
-
-
 
 
     }

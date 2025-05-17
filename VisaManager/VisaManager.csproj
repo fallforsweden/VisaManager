@@ -74,31 +74,67 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="AddClient.xaml">
+    <Page Include="old\AddClient.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AddCompany.xaml">
+    <Page Include="AddClientsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AddVisa.xaml">
+    <Page Include="old\AddCompany.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DetailClient.xaml">
+    <Page Include="AddCompanyControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DetailCompany.xaml">
+    <Page Include="old\AddVisa.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DetailVisa.xaml">
+    <Page Include="AddVisaControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="EditClient.xaml">
+    <Page Include="old\AddVisaDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="old\DetailClient.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DetailClientsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="old\DetailCompany.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DetailCompanyControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="old\DetailVisa.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DetailVisaControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="old\EditClient.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EditClientControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EditCompanyControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -110,31 +146,64 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="AddClient.xaml.cs">
+    <Compile Include="old\AddClient.xaml.cs">
       <DependentUpon>AddClient.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AddCompany.xaml.cs">
+    <Compile Include="AddClientsControl.xaml.cs">
+      <DependentUpon>AddClientsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="old\AddCompany.xaml.cs">
       <DependentUpon>AddCompany.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AddVisa.xaml.cs">
+    <Compile Include="AddCompanyControl.xaml.cs">
+      <DependentUpon>AddCompanyControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="old\AddVisa.xaml.cs">
       <DependentUpon>AddVisa.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddVisaControl.xaml.cs">
+      <DependentUpon>AddVisaControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="old\AddVisaDialog.xaml.cs">
+      <DependentUpon>AddVisaDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DetailClient.xaml.cs">
+    <Compile Include="BoolToStatusBrushConverter.cs" />
+    <Compile Include="BoolToStatusTextConverter.cs" />
+    <Compile Include="clientName.cs" />
+    <Compile Include="DaysLeftConverter.cs" />
+    <Compile Include="old\DetailClient.xaml.cs">
       <DependentUpon>DetailClient.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DetailCompany.xaml.cs">
+    <Compile Include="DetailClientsControl.xaml.cs">
+      <DependentUpon>DetailClientsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="old\DetailCompany.xaml.cs">
       <DependentUpon>DetailCompany.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DetailVisa.xaml.cs">
+    <Compile Include="DetailCompanyControl.xaml.cs">
+      <DependentUpon>DetailCompanyControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="old\DetailVisa.xaml.cs">
       <DependentUpon>DetailVisa.xaml</DependentUpon>
     </Compile>
-    <Compile Include="EditClient.xaml.cs">
+    <Compile Include="DetailVisaControl.xaml.cs">
+      <DependentUpon>DetailVisaControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DocumentViewModel.cs" />
+    <Compile Include="old\EditClient.xaml.cs">
       <DependentUpon>EditClient.xaml</DependentUpon>
     </Compile>
+    <Compile Include="EditClientControl.xaml.cs">
+      <DependentUpon>EditClientControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EditCompanyControl.xaml.cs">
+      <DependentUpon>EditCompanyControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ExpiryStatusConverter.cs" />
     <Compile Include="ImageViewer.xaml.cs">
       <DependentUpon>ImageViewer.xaml</DependentUpon>
     </Compile>
@@ -142,28 +211,56 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="PreviewClients.xaml">
+    <Page Include="old\MessageDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PreviewCompany.xaml">
+    <Page Include="old\PreviewClients.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PreviewVisa.xaml">
+    <Page Include="PreviewClientsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="old\PreviewCompany.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PreviewCompanyControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="old\PreviewVisa.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PreviewVisaControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PreviewClients.xaml.cs">
+    <Compile Include="old\MessageDialog.xaml.cs">
+      <DependentUpon>MessageDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="old\PreviewClients.xaml.cs">
       <DependentUpon>PreviewClients.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PreviewCompany.xaml.cs">
+    <Compile Include="PreviewClientsControl.xaml.cs">
+      <DependentUpon>PreviewClientsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="old\PreviewCompany.xaml.cs">
       <DependentUpon>PreviewCompany.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PreviewVisa.xaml.cs">
+    <Compile Include="PreviewCompanyControl.xaml.cs">
+      <DependentUpon>PreviewCompanyControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="old\PreviewVisa.xaml.cs">
       <DependentUpon>PreviewVisa.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PreviewVisaControl.xaml.cs">
+      <DependentUpon>PreviewVisaControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -194,8 +291,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm">
+      <Version>8.4.0</Version>
+    </PackageReference>
     <PackageReference Include="EntityFramework">
       <Version>6.5.1</Version>
+    </PackageReference>
+    <PackageReference Include="MaterialDesignThemes">
+      <Version>5.2.1</Version>
+    </PackageReference>
+    <PackageReference Include="MaterialDesignThemes.Wpf">
+      <Version>1.0.1</Version>
     </PackageReference>
     <PackageReference Include="System.Data.SQLite">
       <Version>1.0.119</Version>
@@ -218,5 +324,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

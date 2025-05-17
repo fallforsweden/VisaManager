@@ -1,0 +1,177 @@
+﻿<UserControl x:Class="VisaManager.EditClientControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="750" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <!-- Modern Card Style -->
+        <Style x:Key="ModernCard" TargetType="Border">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect BlurRadius="24" ShadowDepth="8" Opacity="0.15" Color="Black"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Document Button Style -->
+        <Style x:Key="DocumentButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}">
+            <Setter Property="Margin" Value="4 0"/>
+            <Setter Property="Padding" Value="8 4"/>
+            <Setter Property="MinWidth" Value="80"/>
+        </Style>
+
+        <!-- Document Label Style -->
+        <Style x:Key="DocumentLabel" TargetType="TextBlock">
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="16 0 0 0"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Border Style="{StaticResource ModernCard}" Margin="32">
+            <DockPanel>
+                <!-- Header -->
+                <Border DockPanel.Dock="Top" Background="#6200EE" CornerRadius="12 12 0 0" Height="72">
+                    <Grid>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="24 0">
+                            <materialDesign:PackIcon Kind="AccountEdit" Foreground="White" Width="28" Height="28"/>
+                            <TextBlock Text="Edit Client" 
+                                       Foreground="White" 
+                                       FontSize="24"
+                                       FontWeight="SemiBold"
+                                       Margin="12 0 0 0"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- Main Content -->
+                <ScrollViewer DockPanel.Dock="Top" Padding="0 0 0 24">
+                    <Grid Margin="0 16 0 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Left Column -->
+                        <StackPanel Grid.Column="0" Margin="0 0 16 0">
+                            <TextBlock Text="Personal Information" 
+                                       Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                                       Margin="16 16 16 8"/>
+
+                            <TextBlock Text="Full Name" Style="{StaticResource MaterialDesignBody2TextBlock}" Margin="16 8 16 0"/>
+                            <TextBox x:Name="NameTextBox" Style="{StaticResource MaterialDesignOutlinedTextBox}" Margin="16 0 16 8"/>
+
+                            <TextBlock Text="Passport Number" Style="{StaticResource MaterialDesignBody2TextBlock}" Margin="16 8 16 0"/>
+                            <TextBox x:Name="PassportNumberTextBox" Style="{StaticResource MaterialDesignOutlinedTextBox}" Margin="16 0 16 8"/>
+
+                            <TextBlock Text="Email Address" Style="{StaticResource MaterialDesignBody2TextBlock}" Margin="16 8 16 0"/>
+                            <TextBox x:Name="EmailTextBox" Style="{StaticResource MaterialDesignOutlinedTextBox}" Margin="16 0 16 8"/>
+
+                            <TextBlock Text="Country" Style="{StaticResource MaterialDesignBody2TextBlock}" Margin="16 8 16 0"/>
+                            <ComboBox x:Name="CountryComboBox" Style="{StaticResource MaterialDesignOutlinedComboBox}" Margin="16 0 16 8"/>
+                        </StackPanel>
+
+                        <!-- Right Column -->
+                        <StackPanel Grid.Column="1">
+                            <TextBlock Text="Visa Information" 
+                                       Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                                       Margin="16 16 16 8"/>
+
+                            <TextBlock Text="Visa Type" Style="{StaticResource MaterialDesignBody2TextBlock}" Margin="16 8 16 0"/>
+                            <ComboBox x:Name="VisaTypeComboBox" Style="{StaticResource MaterialDesignOutlinedComboBox}" Margin="16 0 16 8"/>
+
+                            <TextBlock Text="Expiration Date" Style="{StaticResource MaterialDesignBody2TextBlock}" Margin="16 8 16 0"/>
+                            <DatePicker x:Name="ExpireDatePicker" Style="{StaticResource MaterialDesignOutlinedDatePicker}" Margin="16 0 16 8"/>
+
+                            <TextBlock Text="Company" Style="{StaticResource MaterialDesignBody2TextBlock}" Margin="16 8 16 0"/>
+                            <ComboBox x:Name="CompanyComboBox" Style="{StaticResource MaterialDesignOutlinedComboBox}" Margin="16 0 16 16"/>
+
+                            <!-- Documents Section -->
+                            <TextBlock Text="Documents" 
+                                       Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                                       Margin="16 16 16 8"/>
+
+                            <Grid Margin="16 0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Passport -->
+                                <TextBlock Text="Passport:" Grid.Row="0" Grid.Column="0" Style="{StaticResource DocumentLabel}"/>
+                                <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+                                    <Button Content="View" Style="{StaticResource DocumentButton}" Click="Passport_Click"/>
+                                    <Button Content="Replace" Style="{StaticResource DocumentButton}" Click="ReplacePassport_Click"/>
+                                </StackPanel>
+
+                                <!-- Photo -->
+                                <TextBlock Text="Pas Photo:" Grid.Row="1" Grid.Column="0" Style="{StaticResource DocumentLabel}"/>
+                                <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+                                    <Button Content="View" Style="{StaticResource DocumentButton}" Click="PasPhoto_Click"/>
+                                    <Button Content="Replace" Style="{StaticResource DocumentButton}" Click="ReplacePasPhoto_Click"/>
+                                </StackPanel>
+
+                                <!-- Rekening -->
+                                <TextBlock Text="Rekening:" Grid.Row="2" Grid.Column="0" Style="{StaticResource DocumentLabel}"/>
+                                <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+                                    <Button Content="View" Style="{StaticResource DocumentButton}" Click="Rekening_Click"/>
+                                    <Button Content="Replace" Style="{StaticResource DocumentButton}" Click="ReplaceRekening_Click"/>
+                                </StackPanel>
+
+                                <!-- NPWP -->
+                                <TextBlock Text="NPWP:" Grid.Row="3" Grid.Column="0" Style="{StaticResource DocumentLabel}"/>
+                                <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
+                                    <Button Content="View" Style="{StaticResource DocumentButton}" Click="NPWP_Click"/>
+                                    <Button Content="Replace" Style="{StaticResource DocumentButton}" Click="ReplaceNPWP_Click"/>
+                                </StackPanel>
+
+                                <!-- KTP -->
+                                <TextBlock Text="KTP:" Grid.Row="4" Grid.Column="0" Style="{StaticResource DocumentLabel}"/>
+                                <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal">
+                                    <Button Content="View" Style="{StaticResource DocumentButton}" Click="KTP_Click"/>
+                                    <Button Content="Replace" Style="{StaticResource DocumentButton}" Click="ReplaceKTP_Click"/>
+                                </StackPanel>
+
+                                <!-- Permohonan -->
+                                <TextBlock Text="Permohonan:" Grid.Row="5" Grid.Column="0" Style="{StaticResource DocumentLabel}"/>
+                                <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal">
+                                    <Button Content="View" Style="{StaticResource DocumentButton}" Click="Permohonan_Click"/>
+                                    <Button Content="Replace" Style="{StaticResource DocumentButton}" Click="ReplacePermohonan_Click"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Action Buttons -->
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="16 24 16 0">
+                                <Button Content="SAVE" 
+                                        Style="{StaticResource MaterialDesignRaisedButton}"
+                                        Background="#6200EE"
+                                        Margin="0 0 16 0"
+                                        Width="120"
+                                        Click="Save_Click"/>
+                                <Button Content="CANCEL" 
+                                        Style="{StaticResource MaterialDesignOutlinedButton}"
+                                        Width="120"
+                                        Click="Cancel_Click"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </ScrollViewer>
+            </DockPanel>
+        </Border>
+    </Grid>
+</UserControl>
