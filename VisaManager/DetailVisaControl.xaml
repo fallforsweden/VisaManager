@@ -38,11 +38,11 @@
             <TextBlock Text="Expiration Date" Style="{StaticResource LabelText}"/>
             <TextBlock x:Name="ExpireDateText" Style="{StaticResource ValueText}"/>
 
-            <Button Content="Close" 
-                    HorizontalAlignment="Right"
-                    Margin="0 24 0 0"
-                    Style="{StaticResource MaterialDesignFlatButton}"
-                    Click="CloseButton_Click"/>
+            <Button Grid.Row="2" Content="BACK" 
+        HorizontalAlignment="Right"
+        Margin="0 16 0 0"
+        Style="{StaticResource MaterialDesignFlatButton}"
+        Click="BackButton_Click"/>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

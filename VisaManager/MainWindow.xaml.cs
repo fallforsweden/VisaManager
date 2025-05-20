@@ -9,6 +9,8 @@ using System.Windows.Media;
 using System.Collections.Generic;
 using System.Globalization;
 using static MaterialDesignThemes.Wpf.Theme;
+using System.Linq;
+using System.Windows.Input;
 
 namespace VisaManager
 {
@@ -151,47 +153,33 @@ namespace VisaManager
             MessageQueue.Enqueue(message);
         }
 
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            CheckExpiringClients();
-        }
-
-        private void CheckExpiringClients()
-        {
-            var expiringCount = 0;
-
-            using (var conn = new SQLiteConnection("Data Source=Database/mydata.sqlite;Version=3;"))
-            {
-                conn.Open();
-                var cmd = new SQLiteCommand("SELECT ExpireDate FROM Clients", conn);
-                var reader = cmd.ExecuteReader();
-
-                while (reader.Read())
-                {
-                    var expireDateStr = reader["ExpireDate"].ToString();
-                    if (DateTime.TryParseExact(expireDateStr, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime expireDate))
-                    {
-                        int daysLeft = (expireDate - DateTime.Now).Days;
-                        if (daysLeft <= 30)
-                        {
-                            expiringCount++;
-                        }
-                    }
-                }
-            }
-
-            NotifyExpiringButton.Visibility = expiringCount > 0 ? Visibility.Visible : Visibility.Collapsed;
-        }
-
-        private void NotifyExpiringButton_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Some clients have visas expiring within 30 days. Please check the preview list!", "Heads up!", MessageBoxButton.OK, MessageBoxImage.Warning);
-        }
-
         public void NavigateTo(UserControl control)
         {
             ContentPanel.Children.Clear(); ContentPanel.Children.Add(control);
+        }
+
+        private void AppTitle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            // Show notification control instead of refreshing
+            ContentPanel.Children.Clear();
+            ContentPanel.Children.Add(new NotificationControl());
+
+            // Optional: Show snackbar notification
+            ShowSnackbar("Showing clients with expiring visas");
+        }
+
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Optional: Add confirmation dialog
+            var result = MessageBox.Show("Are you sure you want to exit?",
+                                       "Confirm Exit",
+                                       MessageBoxButton.YesNo,
+                                       MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                Application.Current.Shutdown();
+            }
         }
     }
 }

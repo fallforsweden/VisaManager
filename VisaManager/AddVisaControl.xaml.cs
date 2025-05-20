@@ -25,9 +25,7 @@ namespace VisaManager
 
             if (string.IsNullOrEmpty(visaName) || string.IsNullOrEmpty(expireDate) || !int.TryParse(expireDate, out int daysValid))
             {
-                await DialogHost.Show(new ErrorDialog("Validation Error",
-                    "Please enter a valid visa name and expiration days (1-1000)"),
-                    "RootDialog");
+                MessageBox.Show("Please fill in all fields");
                 return;
             }
 
@@ -44,6 +42,7 @@ namespace VisaManager
                         cmd.Parameters.AddWithValue("@expireDate", expireDate);
                         await Task.Run(() => cmd.ExecuteNonQuery());
                     }
+                    MessageBox.Show("Visa saved successfully!");
                 }
 
 

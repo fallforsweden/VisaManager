@@ -9,8 +9,7 @@
         mc:Ignorable="d"
         Title="Visa Manager" Height="768" Width="1290"
         Background="#f2f4f8"
-        WindowStartupLocation="CenterScreen"
-        Loaded="Window_Loaded">
+        WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
         <Style TargetType="Button">
@@ -56,7 +55,6 @@
             <Setter Property="Margin" Value="5"/>
         </Style>
 
-
     </Window.Resources>
 
     <Grid>
@@ -68,13 +66,29 @@
         <!-- Left Navigation Panel -->
         <Border Grid.Column="0" Background="#e9ecef">
             <StackPanel>
-                <TextBlock Text="Visa Manager" FontSize="18" FontWeight="Bold" Margin="10" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="AppTitle" Text="Visa Manager" 
+                   Foreground="{DynamicResource PrimaryHueMidBrush}"
+                   Cursor="Hand"
+                   Margin="16,0,0,0"
+                   MouseLeftButtonDown="AppTitle_MouseLeftButtonDown">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignHeadline6TextBlock}">
+                            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidBrush}"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="TextDecorations" Value="Underline"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkBrush}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
 
                 <Border Margin="10">
                     <StackPanel>
                         <TextBlock Text="Visa" FontWeight="Bold" FontSize="16" Margin="0 0 0 5"/>
-                        <Button Content="Add Visa" Style="{StaticResource MaterialDesignRaisedButton}" HorizontalAlignment="Stretch" Click="AddVisa_Click" Margin="0 0 0 5"/>
-                        <Button Content="View Visa List" 
+                        <Button Content="Add" Style="{StaticResource MaterialDesignRaisedButton}" HorizontalAlignment="Stretch" Click="AddVisa_Click" Margin="0 0 0 5"/>
+                        <Button Content="Visa List" 
                                 Style="{StaticResource MaterialDesignRaisedButton}"
                                 HorizontalAlignment="Stretch" Click="OpenVisaList_Click"/>
 
@@ -84,33 +98,23 @@
                 <Border Margin="10">
                     <StackPanel>
                         <TextBlock Text="Client" FontWeight="Bold" FontSize="16" Margin="0 0 0 5"/>
-                        <Button Content="Input Client" HorizontalAlignment="Stretch" Click="OpenAddClient" Style="{StaticResource MaterialDesignRaisedButton}" Margin="0 0 0 5" />
-                        <Button Content="Preview Client" HorizontalAlignment="Stretch" Click="OpenPreviewClient" Style="{StaticResource MaterialDesignRaisedButton}" Margin="0 0 0 5" />
+                        <Button Content="Add" HorizontalAlignment="Stretch" Click="OpenAddClient" Style="{StaticResource MaterialDesignRaisedButton}" Margin="0 0 0 5" />
+                        <Button Content="Client List" HorizontalAlignment="Stretch" Click="OpenPreviewClient" Style="{StaticResource MaterialDesignRaisedButton}" Margin="0 0 0 5" />
                     </StackPanel>
                 </Border>
 
                 <Border Margin="10">
                     <StackPanel>
                         <TextBlock Text="Company" FontWeight="Bold" FontSize="16" Margin="0 0 0 5"/>
-                        <Button Content="New Company" HorizontalAlignment="Stretch" Click="OpenAddCompany" Style="{StaticResource MaterialDesignRaisedButton}" Margin="0 0 0 5"/>
-                        <Button Content="Preview Company" HorizontalAlignment="Stretch" Click="OpenPreviewCompany" Style="{StaticResource MaterialDesignRaisedButton}" Margin="0 0 0 5"/>
+                        <Button Content="Add" HorizontalAlignment="Stretch" Click="OpenAddCompany" Style="{StaticResource MaterialDesignRaisedButton}" Margin="0 0 0 5"/>
+                        <Button Content="Company List" HorizontalAlignment="Stretch" Click="OpenPreviewCompany" Style="{StaticResource MaterialDesignRaisedButton}" Margin="0 0 0 5"/>
                     </StackPanel>
                 </Border>
 
-                <Button x:Name="NotifyExpiringButton"
-            Content="⚠ Expiring Clients"
-            Visibility="Collapsed"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Bottom"
-            Margin="20"
-            Padding="10,5"
-            Background="OrangeRed"
-            Foreground="White"
-            FontWeight="Bold"
-            Click="NotifyExpiringButton_Click"
-            Cursor="Hand"/>
-
             </StackPanel>
+
+            
+
 
         </Border>
 
@@ -136,10 +140,15 @@
 
                 <materialDesign:DialogHost x:Name="RootDialog"/>
             </Grid>
+            
+            
         </Border>
-
 
 
     </Grid>
 
+    
+    
+    
+    
 </Window>

@@ -36,11 +36,13 @@ namespace VisaManager
             }
         }
 
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        private void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            // Remove this control from its parent
-            var parent = Parent as Panel;
-            parent?.Children.Remove(this);
+            // Get the parent window and navigate back
+            if (Window.GetWindow(this) is MainWindow mainWindow)
+            {
+                mainWindow.NavigateTo(new PreviewVisaControl());
+            }
         }
     }
 }

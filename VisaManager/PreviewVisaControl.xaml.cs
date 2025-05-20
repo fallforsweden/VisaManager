@@ -9,6 +9,13 @@ namespace VisaManager
 {
     public partial class PreviewVisaControl : UserControl
     {
+        public class Visa
+        {
+            public string Name { get; set; }
+            public string Requirement { get; set; }
+            public string ExpireDate { get; set; }
+        }
+
         public PreviewVisaControl()
         {
             InitializeComponent();
@@ -42,27 +49,13 @@ namespace VisaManager
 
                 while (reader.Read())
                 {
-                    VisaListBox.Items.Add(new
+                    VisaListBox.Items.Add(new Visa
                     {
-                        Text = reader["Name"].ToString(),
-                        FullData = reader // Store the full data if needed
+                        Name = reader["Name"].ToString(),
+                        Requirement = reader["Requirement"].ToString(),
+                        ExpireDate = reader["ExpireDate"].ToString()
                     });
                 }
-            }
-        }
-
-        private void ShowVisaDetails(string visaName)
-        {
-            // Create and show the detail control
-            var detailControl = new DetailVisaControl(visaName);
-            
-            // Assuming you have a container in your main window for details
-            var mainWindow = Application.Current.MainWindow as MainWindow;
-            if (mainWindow != null)
-            {
-                // Clear previous content and add new detail control
-                mainWindow.ContentPanel.Children.Clear();
-                mainWindow.ContentPanel.Children.Add(detailControl);
             }
         }
 
@@ -72,6 +65,31 @@ namespace VisaManager
             LoadVisaList(searchText);
         }
 
+        private void VisaListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (VisaListBox.SelectedItem is Visa selectedVisa)
+            {
+                ShowVisaDetails(selectedVisa.Name);
+            }
+        }
+
+        private void VisaName_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is TextBlock textBlock && textBlock.DataContext is Visa visa)
+            {
+                var mainWindow = Window.GetWindow(this) as MainWindow;
+                mainWindow?.NavigateTo(new VisaClientsControl(visa.Name));
+            }
+        }
+
+        private void ShowVisaDetails(string visaName)
+        {
+            var detailControl = new DetailVisaControl(visaName);
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+            mainWindow?.ContentPanel.Children.Clear();
+            mainWindow?.ContentPanel.Children.Add(detailControl);
+        }
+
         private async void AddNewVisa_Click(object sender, RoutedEventArgs e)
         {
             var addDialog = new AddVisaDialog();
@@ -79,22 +97,12 @@ namespace VisaManager
 
             if (result is bool visaAdded && visaAdded)
             {
-                await Task.Delay(300); // Small delay for smooth UI update
+                await Task.Delay(300);
                 LoadVisaList();
 
-                // Show success snackbar
                 var mainWindow = Application.Current.MainWindow as MainWindow;
                 mainWindow?.ShowSnackbar("Visa added successfully!");
             }
         }
-
-        private void VisaListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if (VisaListBox.SelectedItem != null && VisaListBox.SelectedItem is TextBlock textBlock)
-            {
-                ShowVisaDetails(textBlock.Text);
-            }
-        }
-
     }
 }
