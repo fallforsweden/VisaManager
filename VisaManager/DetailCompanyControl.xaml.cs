@@ -125,9 +125,14 @@ namespace VisaManager
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            var result = MessageBox.Show("Are you sure you want to delete this company?", "Confirm Delete", MessageBoxButton.YesNo);
+            var result = MessageBox.Show(
+                "Are you sure you want to delete this company?",
+                "Confirm Delete",
+                MessageBoxButton.YesNo);
+
             if (result == MessageBoxResult.Yes)
             {
+                // Delete from database
                 using (var conn = new SQLiteConnection("Data Source=Database/mydata.sqlite;Version=3;"))
                 {
                     conn.Open();
@@ -136,9 +141,20 @@ namespace VisaManager
                     cmd.ExecuteNonQuery();
                 }
 
-                MessageBox.Show("Company deleted.");
+                // Get the parent window (MainWindow)
+                var mainWindow = Application.Current.MainWindow as MainWindow;
+
+                if (mainWindow != null)
+                {
+                    // Navigate back to PreviewCompanyControl
+                    mainWindow.ShowContent(new PreviewCompanyControl());
+
+                    // Optional: Show confirmation snackbar
+                    mainWindow.ShowSnackbar("Company deleted successfully");
+                }
+
+                CompanyWasModified = true;
             }
-            CompanyWasModified = true;
         }
     }
 }

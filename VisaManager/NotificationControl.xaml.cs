@@ -1,6 +1,10 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.Input;
+using System;
 using System.Data.SQLite;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Input;
 
 namespace VisaManager
 {
@@ -15,11 +19,14 @@ namespace VisaManager
             public int DaysLeft { get; set; }
         }
 
+
+
         public NotificationControl()
         {
             InitializeComponent();
             LoadExpiringClients();
         }
+
 
         private void LoadExpiringClients()
         {
@@ -54,5 +61,7 @@ namespace VisaManager
                 }
             }
         }
+
+      
     }
 }

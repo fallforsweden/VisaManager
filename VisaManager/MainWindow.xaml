@@ -55,67 +55,103 @@
             <Setter Property="Margin" Value="5"/>
         </Style>
 
+        <!-- Navigation Panel Styles -->
+        <Style TargetType="Expander" BasedOn="{StaticResource MaterialDesignExpander}">
+            <Setter Property="Margin" Value="8 4"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="IsExpanded" Value="True"/>
+            <Setter Property="Foreground" Value="#424242"/>
+        </Style>
+
+        <Style TargetType="ListBox" x:Key="NavListBoxStyle">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="8 4"/>
+        </Style>
+
     </Window.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="280"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+        
 
-        <!-- Left Navigation Panel -->
-        <Border Grid.Column="0" Background="#e9ecef">
+        <!-- Replace your current left navigation panel with this -->
+        <Border Grid.Column="0" Background="#f5f5f5">
+            
             <StackPanel>
-                <TextBlock x:Name="AppTitle" Text="Visa Manager" 
+                <!-- App Title -->
+                <StackPanel Orientation="Horizontal" Margin="16 20 16 30">
+                  
+                    <TextBlock x:Name="AppTitle" Text="Visa Manager" 
                    Foreground="{DynamicResource PrimaryHueMidBrush}"
                    Cursor="Hand"
                    Margin="16,0,0,0"
                    MouseLeftButtonDown="AppTitle_MouseLeftButtonDown">
-                    <TextBlock.Style>
-                        <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignHeadline6TextBlock}">
-                            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidBrush}"/>
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="TextDecorations" Value="Underline"/>
-                                    <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkBrush}"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBlock.Style>
-                </TextBlock>
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignHeadline6TextBlock}">
+                                <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidBrush}"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="TextDecorations" Value="Underline"/>
+                                        <Setter Property="Foreground" Value="{DynamicResource PrimaryHueDarkBrush}"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </StackPanel>
 
-                <Border Margin="10">
-                    <StackPanel>
-                        <TextBlock Text="Visa" FontWeight="Bold" FontSize="16" Margin="0 0 0 5"/>
-                        <Button Content="Add" Style="{StaticResource MaterialDesignRaisedButton}" HorizontalAlignment="Stretch" Click="AddVisa_Click" Margin="0 0 0 5"/>
-                        <Button Content="Visa List" 
-                                Style="{StaticResource MaterialDesignRaisedButton}"
-                                HorizontalAlignment="Stretch" Click="OpenVisaList_Click"/>
+               
 
-                    </StackPanel>
-                </Border>
+                <!-- Navigation Items -->
+                <ItemsControl ItemsSource="{Binding NavigationItems}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Expander Header="{Binding Title}" 
+                             IsExpanded="{Binding IsExpanded, Mode=TwoWay}"
+                             Style="{StaticResource MaterialDesignExpander}">
+                                <Expander.HeaderTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <materialDesign:PackIcon Kind="{Binding Icon}" 
+                                                            Width="20" Height="20"
+                                                            Margin="0 0 8 0"/>
+                                            <TextBlock Text="{Binding}" 
+                                              VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </Expander.HeaderTemplate>
 
-                <Border Margin="10">
-                    <StackPanel>
-                        <TextBlock Text="Client" FontWeight="Bold" FontSize="16" Margin="0 0 0 5"/>
-                        <Button Content="Add" HorizontalAlignment="Stretch" Click="OpenAddClient" Style="{StaticResource MaterialDesignRaisedButton}" Margin="0 0 0 5" />
-                        <Button Content="Client List" HorizontalAlignment="Stretch" Click="OpenPreviewClient" Style="{StaticResource MaterialDesignRaisedButton}" Margin="0 0 0 5" />
-                    </StackPanel>
-                </Border>
-
-                <Border Margin="10">
-                    <StackPanel>
-                        <TextBlock Text="Company" FontWeight="Bold" FontSize="16" Margin="0 0 0 5"/>
-                        <Button Content="Add" HorizontalAlignment="Stretch" Click="OpenAddCompany" Style="{StaticResource MaterialDesignRaisedButton}" Margin="0 0 0 5"/>
-                        <Button Content="Company List" HorizontalAlignment="Stretch" Click="OpenPreviewCompany" Style="{StaticResource MaterialDesignRaisedButton}" Margin="0 0 0 5"/>
-                    </StackPanel>
-                </Border>
-
+                                <ListBox ItemsSource="{Binding Children}" 
+                                             Background="Transparent"
+                                             BorderThickness="0"
+                                             ItemContainerStyle="{StaticResource MaterialDesignListBoxItem}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Button Command="{Binding Command}"
+                                            HorizontalContentAlignment="Left"
+                                            Margin="4 2"
+                                            Style="{StaticResource MaterialDesignFlatButton}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <materialDesign:PackIcon 
+                                            Kind="{Binding Icon, FallbackValue=Error}"
+                                            Width="18"
+                                            Height="18"
+                                            Margin="0 0 8 0"/>
+                                                    <TextBlock Text="{Binding Title}"/>
+                                                </StackPanel>
+                                            </Button>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </Expander>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </StackPanel>
-
-            
-
-
         </Border>
 
 
@@ -136,13 +172,30 @@
 
                 <materialDesign:Snackbar x:Name="MySnackbar"
                    MessageQueue="{materialDesign:MessageQueue}"
-                   HorizontalAlignment="Left" Height="0" Margin="0,680,0,0" VerticalAlignment="Top" Width="288"/>
+                   HorizontalAlignment="Left" Height="0" Margin="0,680,0,0" VerticalAlignment="Top" Width="288" Panel.ZIndex="100" />
 
                 <materialDesign:DialogHost x:Name="RootDialog"/>
             </Grid>
             
             
         </Border>
+
+        <Button Content="Exit" 
+        Width="100" 
+        Height="35" 
+        HorizontalAlignment="Left" 
+        VerticalAlignment="Bottom" 
+        Margin="10"
+        Background="#FF4A4A" 
+        Foreground="White"
+        FontWeight="Bold"
+        Click="ExitButton_Click">
+            <Button.Effect>
+                <DropShadowEffect Opacity="0.5" BlurRadius="5"/>
+            </Button.Effect>
+        </Button>
+
+
 
 
     </Grid>

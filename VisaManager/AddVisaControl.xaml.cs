@@ -59,13 +59,7 @@ namespace VisaManager
             }
         }
 
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            // Return to previous view or clear fields
-            VisaNameTextBox.Text = "";
-            RequirementTextBox.Text = "";
-            ExpireDaysTextBox.Text = "";
-        }
+     
 
         // Modern keyboard support
         private void OnKeyDown(object sender, KeyEventArgs e)

@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using static MaterialDesignThemes.Wpf.Theme;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 
 namespace VisaManager
@@ -85,7 +86,17 @@ namespace VisaManager
                     cmd.ExecuteNonQuery();
                 }
 
-                MessageBox.Show("Client deleted successfully!");
+                // Get the parent window (MainWindow)
+                var mainWindow = Application.Current.MainWindow as MainWindow;
+
+                if (mainWindow != null)
+                {
+                    // Navigate back to PreviewCompanyControl
+                    mainWindow.ShowContent(new PreviewClientsControl());
+
+                    // Optional: Show confirmation snackbar
+                    mainWindow.ShowSnackbar("Client deleted successfully");
+                }
                 ClientWasModified = true;
             }
         }
@@ -116,6 +127,23 @@ namespace VisaManager
             }
         }
 
+        private void VisaTypeText_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(VisaTypeText.Text))
+            {
+                var parentWindow = Window.GetWindow(this) as MainWindow;
+                parentWindow?.NavigateTo(new VisaClientsControl(VisaTypeText.Text));
+            }
+        }
+
+        private void CompanyText_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(CompanyText.Text))
+            {
+                var parentWindow = Window.GetWindow(this) as MainWindow;
+                parentWindow?.NavigateTo(new CompanyClientsControl(CompanyText.Text));
+            }
+        }
 
     }
 }

@@ -38,8 +38,9 @@
                 <materialDesign:PackIcon Kind="Passport" Width="32" Height="32"
                                         Foreground="{DynamicResource PrimaryHueMidBrush}"/>
                 <TextBlock Text="Add New Visa" 
-                          Style="{DynamicResource MaterialDesignTitleTextBlock}"
-                          Margin="8 0 0 0"/>
+                          Style="{DynamicResource MaterialDesignHeadline6TextBlock}"
+                          Margin="8 0 0 0"
+                           />
             </StackPanel>
 
             <!-- Visa Name -->
@@ -68,11 +69,6 @@
 
             <!-- Buttons -->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="CANCEL"
-                        Style="{StaticResource MaterialDesignFlatButton}"
-                        Click="CancelButton_Click"
-                        Margin="0 0 8 0"/>
-
                 <Button Content="SAVE"
                         Style="{StaticResource MaterialDesignRaisedButton}"
                         Click="SaveButton_Click"/>

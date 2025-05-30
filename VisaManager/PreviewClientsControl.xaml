@@ -56,7 +56,6 @@
             <Setter Property="Margin" Value="0 0 0 4"/>
             <Setter Property="BorderBrush" Value="#E0E0E0"/>
             <Setter Property="BorderThickness" Value="0 0 0 1"/>
-            <Setter Property="ToolTip" Value="Double click to view client details"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="#F5F5F5"/>
@@ -73,6 +72,7 @@
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="TextDecorations" Value="Underline"/>
+                    <Setter Property="Foreground" Value="#240f42"/>
                 </Trigger>
             </Style.Triggers>
         </Style>

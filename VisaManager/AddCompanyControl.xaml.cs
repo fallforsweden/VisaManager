@@ -153,7 +153,16 @@ namespace VisaManager
                 cmd.ExecuteNonQuery();
             }
 
-            MessageBox.Show("Company saved successfully!");
+            var mainWindow = Application.Current.MainWindow as MainWindow;
+
+            if (mainWindow != null)
+            {
+                // Navigate back to PreviewCompanyControl
+                mainWindow.ShowContent(new PreviewCompanyControl());
+
+                // Optional: Show confirmation snackbar
+                mainWindow.ShowSnackbar("Company Added successfully");
+            }
         }
     }
 }
