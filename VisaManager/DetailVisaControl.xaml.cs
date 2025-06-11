@@ -8,6 +8,7 @@ namespace VisaManager
     {
         private string visaName;
 
+
         public DetailVisaControl(string name)
         {
             InitializeComponent();
@@ -42,6 +43,13 @@ namespace VisaManager
             if (Window.GetWindow(this) is MainWindow mainWindow)
             {
                 mainWindow.NavigateTo(new PreviewVisaControl());
+            }
+        }
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (Window.GetWindow(this) is MainWindow mainWindow)
+            {
+                mainWindow.NavigateTo(new EditVisaControl(visaName));
             }
         }
     }

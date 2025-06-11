@@ -237,6 +237,7 @@ namespace VisaManager
         public void NavigateTo(UserControl control)
         {
             ContentPanel.Children.Clear(); ContentPanel.Children.Add(control);
+
         }
 
         private void AppTitle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)

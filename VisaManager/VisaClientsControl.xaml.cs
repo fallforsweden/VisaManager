@@ -1,4 +1,5 @@
-﻿using System.Data.SQLite;
+﻿using System;
+using System.Data.SQLite;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -23,30 +24,46 @@ namespace VisaManager
 
         private void LoadClients()
         {
-            using (var conn = new SQLiteConnection("Data Source=Database/mydata.sqlite;Version=3;"))
+            try
             {
-                conn.Open();
-                var cmd = new SQLiteCommand(
-                    "SELECT Name, PassportNo, Email, ExpireDate, CountryOrigin, Company " +
-                    "FROM Clients WHERE VisaType = @visaName ORDER BY Name", conn);
-                cmd.Parameters.AddWithValue("@visaName", _visaName);
+                Console.WriteLine($"Loading clients for visa: {_visaName}"); // Debug output
 
-                using (var reader = cmd.ExecuteReader())
+                using (var conn = new SQLiteConnection("Data Source=Database/mydata.sqlite;Version=3;"))
                 {
-                    ClientsDataGrid.Items.Clear();
-                    while (reader.Read())
+                    conn.Open();
+                    var cmd = new SQLiteCommand(
+                        "SELECT Name, PassportNo, Email, ExpireDate, CountryOrigin, Company " +
+                        "FROM Clients WHERE VisaType = @visaName ORDER BY Name", conn);
+                    cmd.Parameters.AddWithValue("@visaName", _visaName);
+
+                    // Debug: Print the actual SQL being executed
+                    Console.WriteLine($"Executing query: {cmd.CommandText}");
+                    Console.WriteLine($"With parameter: {_visaName}");
+
+                    using (var reader = cmd.ExecuteReader())
                     {
-                        ClientsDataGrid.Items.Add(new
+                        int count = 0;
+                        while (reader.Read())
                         {
-                            Name = reader["Name"].ToString(),
-                            PassportNo = reader["PassportNo"].ToString(),
-                            Email = reader["Email"].ToString(),
-                            ExpireDate = reader["ExpireDate"].ToString(),
-                            CountryOrigin = reader["CountryOrigin"].ToString(),
-                            Company = reader["Company"].ToString()
-                        });
+                            count++;
+                            ClientsDataGrid.Items.Add(new
+                            {
+                                Name = reader["Name"].ToString(),
+                                PassportNo = reader["PassportNo"].ToString(),
+                                Email = reader["Email"].ToString(),
+                                ExpireDate = reader["ExpireDate"].ToString(),
+                                CountryOrigin = reader["CountryOrigin"].ToString(),
+                                Company = reader["Company"].ToString()
+                            });
+                        }
+                        Console.WriteLine($"Found {count} clients"); // Debug output
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading clients: {ex.Message}"); // Debug output
+                MessageBox.Show($"Error loading clients: {ex.Message}");
             }
         }
 

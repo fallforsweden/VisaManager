@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="VisaManager.EditVisaControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006">
+
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Edit Visa" FontSize="20" FontWeight="Bold" Margin="0,0,0,16"/>
+
+        <StackPanel Grid.Row="1">
+            <TextBlock Text="Visa Name" Margin="0,0,0,4"/>
+            <TextBox x:Name="VisaNameTextBox" Margin="0,0,0,8"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2">
+            <TextBlock Text="Requirements" Margin="0,0,0,4"/>
+            <TextBox x:Name="RequirementTextBox" Margin="0,0,0,8" AcceptsReturn="True" Height="60"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="3">
+            <TextBlock Text="Expire Days" Margin="0,0,0,4"/>
+            <TextBox x:Name="ExpireDaysTextBox" Margin="0,0,0,16"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Delete" Click="DeleteButton_Click" Background="Red" Foreground="White" Margin="0,0,8,0"/>
+            <Button Content="Cancel" Click="CancelButton_Click" Margin="0,0,8,0"/>
+            <Button Content="Save" Click="SaveButton_Click" Background="#FF0078D7" Foreground="White"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

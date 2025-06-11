@@ -1,4 +1,6 @@
-﻿using System.Data.SQLite;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.SQLite;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,32 +26,17 @@ namespace VisaManager
 
         private void LoadVisaList(string searchTerm = null)
         {
-            VisaListBox.Items.Clear();
+            var visaList = new List<Visa>();
 
-            using (SQLiteConnection conn = new SQLiteConnection("Data Source=Database/mydata.sqlite;Version=3;"))
+            using (var conn = new SQLiteConnection("Data Source=Database/mydata.sqlite;Version=3;"))
             {
                 conn.Open();
-                string query = "SELECT Name, Requirement, ExpireDate FROM Visa";
-
-                if (!string.IsNullOrEmpty(searchTerm))
-                {
-                    query += " WHERE LOWER(Name) LIKE @searchTerm";
-                }
-
-                query += " ORDER BY Name ASC";
-
-                SQLiteCommand cmd = new SQLiteCommand(query, conn);
-
-                if (!string.IsNullOrEmpty(searchTerm))
-                {
-                    cmd.Parameters.AddWithValue("@searchTerm", $"%{searchTerm.ToLower()}%");
-                }
-
-                SQLiteDataReader reader = cmd.ExecuteReader();
+                var cmd = new SQLiteCommand("SELECT Name, Requirement, ExpireDate FROM Visa", conn);
+                var reader = cmd.ExecuteReader();
 
                 while (reader.Read())
                 {
-                    VisaListBox.Items.Add(new Visa
+                    visaList.Add(new Visa
                     {
                         Name = reader["Name"].ToString(),
                         Requirement = reader["Requirement"].ToString(),
@@ -57,6 +44,8 @@ namespace VisaManager
                     });
                 }
             }
+
+            VisaDataGrid.ItemsSource = visaList;
         }
 
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -67,7 +56,7 @@ namespace VisaManager
 
         private void VisaListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (VisaListBox.SelectedItem is Visa selectedVisa)
+            if (VisaDataGrid.SelectedItem is Visa selectedVisa)
             {
                 ShowVisaDetails(selectedVisa.Name);
             }
@@ -102,6 +91,37 @@ namespace VisaManager
 
                 var mainWindow = Application.Current.MainWindow as MainWindow;
                 mainWindow?.ShowSnackbar("Visa added successfully!");
+            }
+        }
+
+        private void VisaName_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.DataContext is Visa visa)
+            {
+                var detailControl = new DetailVisaControl(visa.Name);
+                var mainWindow = Window.GetWindow(this) as MainWindow;
+                mainWindow?.NavigateTo(detailControl);
+            }
+        }
+
+        private void ViewClients_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.DataContext is Visa visa)
+            {
+                Console.WriteLine($"Navigating to clients view for visa: {visa.Name}"); // Debug
+                var clientsControl = new VisaClientsControl(visa.Name);
+                var mainWindow = Window.GetWindow(this) as MainWindow;
+                mainWindow?.NavigateTo(clientsControl);
+            }
+        }
+
+        private void EditVisa_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button button && button.DataContext is Visa visa)
+            {
+                var editControl = new EditVisaControl(visa.Name);
+                var mainWindow = Window.GetWindow(this) as MainWindow;
+                mainWindow?.NavigateTo(editControl);
             }
         }
     }

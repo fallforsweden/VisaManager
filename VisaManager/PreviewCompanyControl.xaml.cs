@@ -28,12 +28,23 @@ namespace VisaManager
         }
         public class CompanyInfo
         {
+            public int Id { get; set; } // Add this property
             public string Name { get; set; }
             public string Contact { get; set; }
             public string Email { get; set; }
+            public string AktaPath { get; set; }
+            public string SKPath { get; set; }
+            public string NIBPath { get; set; }
+            public string NPWPPath { get; set; }
+            public string Doc1Path { get; set; }
+            public string Doc2Path { get; set; }
+            public string Doc3Path { get; set; }
+            public string Doc4Path { get; set; }
+            public string Doc5Path { get; set; }
         }
 
-        private List<CompanyInfo> companyList = new();
+        private List<Company> companyList = new();
+
 
         private void LoadCompany()
         {
@@ -42,17 +53,29 @@ namespace VisaManager
             using (var conn = new SQLiteConnection("Data Source=Database/mydata.sqlite;Version=3;"))
             {
                 conn.Open();
-                var cmd = new SQLiteCommand("SELECT Name, Contact, Email FROM Company", conn);
+                var cmd = new SQLiteCommand("SELECT Id, Name, Contact, Email, Akta, SK, NIB, NPWP, Doc1, Doc2, Doc3, Doc4, Doc5 FROM Company", conn);
                 var reader = cmd.ExecuteReader();
 
                 while (reader.Read())
                 {
-                    companyList.Add(new CompanyInfo
+                    var company = new Company
                     {
+                        Id = Convert.ToInt32(reader["Id"]),
                         Name = reader["Name"].ToString(),
                         Contact = reader["Contact"].ToString(),
-                        Email = reader["Email"].ToString()
-                    });
+                        Email = reader["Email"].ToString(),
+                        AktaPath = reader["Akta"].ToString(),
+                        SKPath = reader["SK"].ToString(),
+                        NIBPath = reader["NIB"].ToString(),
+                        NPWPPath = reader["NPWP"].ToString(),
+                        Doc1Path = reader["Doc1"].ToString(),
+                        Doc2Path = reader["Doc2"].ToString(),
+                        Doc3Path = reader["Doc3"].ToString(),
+                        Doc4Path = reader["Doc4"].ToString(),
+                        Doc5Path = reader["Doc5"].ToString()
+                    };
+
+                    companyList.Add(company);
                 }
 
                 CompanyDataGrid.ItemsSource = null;
@@ -60,23 +83,11 @@ namespace VisaManager
             }
         }
 
-        private void CompanyDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            if (CompanyDataGrid.SelectedItem is CompanyInfo selectedCompany)
-            {
-                DetailCompany detailWindow = new DetailCompany(selectedCompany.Name);
-                bool? result = detailWindow.ShowDialog();
+       
 
-                if (detailWindow.CompanyWasModified)
-                {
-                    LoadCompany();
-                }
-            }
-        }
-
-        private async void CompanyName_Click(object sender, RoutedEventArgs e)
+        private void CompanyName_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button button && button.DataContext is CompanyInfo company)
+            if (sender is Button button && button.DataContext is Company company)
             {
                 var detailControl = new DetailCompanyControl(company.Name);
                 var mainWindow = Window.GetWindow(this) as MainWindow;
@@ -84,7 +95,6 @@ namespace VisaManager
 
                 if (detailControl.CompanyWasModified)
                 {
-                    await Task.Delay(300); // Small delay for smooth UI
                     LoadCompany();
                 }
             }

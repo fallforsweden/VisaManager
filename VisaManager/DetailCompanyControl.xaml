@@ -96,10 +96,6 @@
                         <Button x:Name="AktaLink" Content="View Document" 
                                 Style="{StaticResource MaterialDesignFlatButton}"
                                 Click="OpenFile_Click" Margin="8 0"/>
-                        <Button Content="Replace" 
-                                Style="{StaticResource MaterialDesignOutlinedButton}"
-                                Command="{Binding ReplaceDocumentCommand}"
-                                CommandParameter="Akta"/>
                     </StackPanel>
 
                     <!-- SK Kemenkumham -->
@@ -108,10 +104,6 @@
                         <Button x:Name="SKLink" Content="View Document" 
                             Style="{StaticResource MaterialDesignFlatButton}"
                             Click="OpenFile_Click" Margin="8 0"/>
-                        <Button Content="Replace" 
-                            Style="{StaticResource MaterialDesignOutlinedButton}"
-                            Command="{Binding ReplaceDocumentCommand}"
-                            CommandParameter="SK"/>
                     </StackPanel>
 
                     <!-- NIB -->
@@ -120,10 +112,6 @@
                         <Button x:Name="NIBLink" Content="View Document" 
                                 Style="{StaticResource MaterialDesignFlatButton}"
                                 Click="OpenFile_Click" Margin="8 0"/>
-                        <Button Content="Replace" 
-                                Style="{StaticResource MaterialDesignOutlinedButton}"
-                                Command="{Binding ReplaceDocumentCommand}"
-                                CommandParameter="NIB"/>
                     </StackPanel>
 
                     <!-- NPWP -->
@@ -132,10 +120,6 @@
                         <Button x:Name="NPWPLink" Content="View Document" 
                                 Style="{StaticResource MaterialDesignFlatButton}"
                                 Click="OpenFile_Click" Margin="8 0"/>
-                        <Button Content="Replace" 
-                                Style="{StaticResource MaterialDesignOutlinedButton}"
-                                Command="{Binding ReplaceDocumentCommand}"
-                                CommandParameter="NPWP"/>
                     </StackPanel>
                 </StackPanel>
 
@@ -151,10 +135,6 @@
                             <Button x:Name="Doc1Link" Content="View Document" 
                                      Style="{StaticResource MaterialDesignFlatButton}"
                                      Click="OpenFile_Click" Margin="8 0"/>
-                            <Button Content="Replace" 
-                                     Style="{StaticResource MaterialDesignOutlinedButton}"
-                                     Command="{Binding ReplaceDocumentCommand}"
-                                     CommandParameter="Doc1"/>
                         </StackPanel>
 
                         <!-- Doc 2 -->
@@ -163,10 +143,6 @@
                             <Button x:Name="Doc2Link" Content="View Document" 
                                  Style="{StaticResource MaterialDesignFlatButton}"
                                  Click="OpenFile_Click" Margin="8 0"/>
-                            <Button Content="Replace" 
-                                 Style="{StaticResource MaterialDesignOutlinedButton}"
-                                 Command="{Binding ReplaceDocumentCommand}"
-                                 CommandParameter="Doc2"/>
                         </StackPanel>
 
                         <!-- Doc 3 -->
@@ -175,10 +151,6 @@
                             <Button x:Name="Doc3Link" Content="View Document" 
                                  Style="{StaticResource MaterialDesignFlatButton}"
                                  Click="OpenFile_Click" Margin="8 0"/>
-                            <Button Content="Replace" 
-                                 Style="{StaticResource MaterialDesignOutlinedButton}"
-                                 Command="{Binding ReplaceDocumentCommand}"
-                                 CommandParameter="Doc3"/>
                         </StackPanel>
 
                         <!-- Doc 4 -->
@@ -187,10 +159,6 @@
                             <Button x:Name="Doc4Link" Content="View Document" 
                                  Style="{StaticResource MaterialDesignFlatButton}"
                                  Click="OpenFile_Click" Margin="8 0"/>
-                            <Button Content="Replace" 
-                                 Style="{StaticResource MaterialDesignOutlinedButton}"
-                                 Command="{Binding ReplaceDocumentCommand}"
-                                 CommandParameter="Doc4"/>
                         </StackPanel>
 
                         <!-- Doc 5 -->
@@ -199,10 +167,6 @@
                             <Button x:Name="Doc5Link" Content="View Document" 
                                  Style="{StaticResource MaterialDesignFlatButton}"
                                  Click="OpenFile_Click" Margin="8 0"/>
-                            <Button Content="Replace" 
-                                 Style="{StaticResource MaterialDesignOutlinedButton}"
-                                 Command="{Binding ReplaceDocumentCommand}"
-                                 CommandParameter="Doc5"/>
                         </StackPanel>
                     </UniformGrid>
                 </StackPanel>

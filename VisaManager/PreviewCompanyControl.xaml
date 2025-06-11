@@ -66,7 +66,6 @@
     <Grid>
         <Border Style="{StaticResource ModernCard}">
             <DockPanel>
-                <!-- Header -->
                 <Border Background="#6200EE" Height="72" DockPanel.Dock="Top" CornerRadius="12 12 0 0">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="24 0">
                         <materialDesign:PackIcon Kind="OfficeBuilding" Foreground="White" Width="24" Height="24"/>
@@ -78,8 +77,7 @@
                     </StackPanel>
                 </Border>
 
-                <!-- Search and Filter Bar -->
-                <Border DockPanel.Dock="Top" Padding="16" Background="White">
+                <Border DockPanel.Dock="Top" Padding="16" Background="GhostWhite">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -91,29 +89,15 @@
                                  Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                  materialDesign:HintAssist.Hint="Search companies..."
                                  Margin="0 0 12 0"/>
-
-                        <ComboBox Grid.Column="1"
-                                 Width="120"
-                                 Margin="0 0 12 0"
-                                 materialDesign:HintAssist.Hint="Filter"
-                                 Style="{StaticResource MaterialDesignOutlinedComboBox}">
-                            <ComboBoxItem Content="All"/>
-                            <ComboBoxItem Content="Active"/>
-                            <ComboBoxItem Content="Inactive"/>
-                        </ComboBox>
-
                     </Grid>
                 </Border>
                 
-                
-
-                <!-- DataGrid -->
                 <DataGrid x:Name="CompanyDataGrid"
                           AutoGenerateColumns="False"
                           CanUserAddRows="False"
-                          MouseDoubleClick="CompanyDataGrid_MouseDoubleClick">
+                          VerticalContentAlignment="Center"
+                          HorizontalContentAlignment="Center">
                     <DataGrid.Columns>
-                        <!-- Name Column -->
                         <DataGridTemplateColumn Header="COMPANY NAME" Width="*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -123,34 +107,18 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-
-                        <!-- Contact Column -->
+                        
                         <DataGridTextColumn Header="PRIMARY CONTACT" 
                                           Binding="{Binding Contact}" 
-                                          Width="1.5*"
+                                          Width="*"
                                           ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"/>
 
-                        <!-- Email Column -->
                         <DataGridTextColumn Header="EMAIL" 
                                            Binding="{Binding Email}" 
                                            Width="2*"
                                            ElementStyle="{StaticResource MaterialDesignDataGridTextColumnStyle}"/>
 
-                        <!-- Status Column -->
-                        <DataGridTemplateColumn Header="STATUS" Width="0.8*">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Border Background="{Binding IsActive, Converter={StaticResource BoolToStatusBrushConverter}}"
-                                            CornerRadius="4"
-                                            Padding="8 4"
-                                            HorizontalAlignment="Center">
-                                        <TextBlock Text="{Binding IsActive, Converter={StaticResource BoolToStatusTextConverter}}"
-                                                   Foreground="White"
-                                                   FontWeight="SemiBold"/>
-                                    </Border>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
+                        
                     </DataGrid.Columns>
                 </DataGrid>
             </DockPanel>

@@ -9,108 +9,74 @@
              Background="#FAFAFA">
 
     <UserControl.Resources>
-        <!-- Modern Card Style -->
-        <Style x:Key="ModernCard" TargetType="Border">
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="CornerRadius" Value="12"/>
+        <Style x:Key="LinkButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Effect">
-                <Setter.Value>
-                    <DropShadowEffect BlurRadius="16" ShadowDepth="4" Opacity="0.1" Color="Black"/>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="Margin" Value="16"/>
-        </Style>
-
-        <!-- Visa Item Style -->
-        <Style x:Key="VisaItemStyle" TargetType="ListBoxItem">
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidBrush}"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="ListBoxItem">
-                        <Border x:Name="Border" 
-                                Background="Transparent"
-                                CornerRadius="8"
-                                Padding="12"
-                                Margin="0 0 0 4">
-                            <ContentPresenter />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Border" Property="Background" Value="#F3E5F5"/>
-                            </Trigger>
-                            <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="Border" Property="Background" Value="#E1BEE7"/>
-                                <Setter TargetName="Border" Property="BorderBrush" Value="#9C27B0"/>
-                                <Setter TargetName="Border" Property="BorderThickness" Value="1"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
+                    <ControlTemplate TargetType="Button">
+                        <TextBlock Text="{TemplateBinding Content}" 
+                           TextDecorations="Underline"
+                           Margin="4,0"/>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
 
-        <!-- Search Box Style -->
-        <Style x:Key="ModernSearchBox" TargetType="TextBox" BasedOn="{StaticResource MaterialDesignOutlinedTextBox}">
-            <Setter Property="Margin" Value="0 0 0 16"/>
-            <Setter Property="materialDesign:HintAssist.Hint" Value="Search visa types..."/>
-            <Setter Property="materialDesign:TextFieldAssist.PrefixText" Value="🔍"/>
+        <Style x:Key="FlatButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="{DynamicResource PrimaryHueLightBrush}"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="Cursor" Value="Hand"/>
         </Style>
     </UserControl.Resources>
+    
+    
+    <DataGrid x:Name="VisaDataGrid" AutoGenerateColumns="False">
+        <DataGrid.Columns>
+            <!-- Visa Name Column -->
+            <DataGridTemplateColumn Header="Visa Name">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <Button Content="{Binding Name}" 
+                            Style="{StaticResource LinkButtonStyle}"
+                            Click="VisaName_Click"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
 
-    <Grid>
-        <Border Style="{StaticResource ModernCard}">
-            <DockPanel>
-                <!-- Header -->
-                <Border Background="#7B1FA2" Height="72" DockPanel.Dock="Top" CornerRadius="12 12 0 0">
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="24 0">
-                        <materialDesign:PackIcon Kind="Passport" Foreground="White" Width="24" Height="24"/>
-                        <TextBlock Text="Visa Types" 
-                                   Foreground="White" 
-                                   FontSize="20" 
-                                   FontWeight="SemiBold"
-                                   Margin="12 0 0 0"/>
-                    </StackPanel>
-                </Border>
-                
+            <!-- Requirements Column -->
+            <DataGridTextColumn Header="Requirements" Binding="{Binding Requirement}"/>
 
-                <!-- Search Box -->
-                <TextBox x:Name="SearchTextBox" 
-                         DockPanel.Dock="Top"
-                         Style="{StaticResource ModernSearchBox}"
-                         TextChanged="SearchTextBox_TextChanged"/>
+            <!-- Expire Days Column -->
+            <DataGridTextColumn Header="Expire Days" Binding="{Binding ExpireDate}"/>
 
-                <!-- Visa List -->
-                <ListBox x:Name="VisaListBox" 
-         Margin="16,8,16,8"
-         ItemContainerStyle="{StaticResource VisaItemStyle}"
-         MouseDoubleClick="VisaListBox_MouseDoubleClick">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel>
-                                <TextBlock Text="{Binding Name}" 
-                           Foreground="{DynamicResource PrimaryHueMidBrush}"
-                           Cursor="Hand"
-                           FontWeight="SemiBold"
-                           FontSize="14"
-                           MouseLeftButtonUp="VisaName_MouseLeftButtonUp"/>
-                                <StackPanel Orientation="Horizontal" Margin="0 4 0 0">
-                                    <TextBlock Text="Expires in: " 
-                               Foreground="#666"
-                               FontSize="12"/>
-                                    <TextBlock Text="{Binding ExpireDate}" 
-                               Foreground="#666"
-                               FontSize="12"/>
-                                </StackPanel>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+            <!-- Clients Button Column -->
+            <DataGridTemplateColumn Header="Clients">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <Button Content="View Clients" 
+                            Style="{StaticResource FlatButtonStyle}"
+                            Click="ViewClients_Click"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
 
-
-            </DockPanel>
+            <!-- Add Edit column -->
+            <DataGridTemplateColumn Header="Actions">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <Button Content="Edit" 
+                            Style="{StaticResource FlatButtonStyle}"
+                            Click="EditVisa_Click"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
             
-            
-        </Border>
-
-    </Grid>
+        </DataGrid.Columns>
+    </DataGrid>
 </UserControl>

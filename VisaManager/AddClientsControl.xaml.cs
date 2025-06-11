@@ -231,6 +231,8 @@ namespace VisaManager
                 cmd.ExecuteNonQuery();
             }
 
+            
+
             // Get the parent window (MainWindow)
             var mainWindow = Application.Current.MainWindow as MainWindow;
 
@@ -240,7 +242,7 @@ namespace VisaManager
                 mainWindow.ShowContent(new PreviewClientsControl());
 
                 // Optional: Show confirmation snackbar
-                mainWindow.ShowSnackbar("Client Added successfully");
+                MessageBox.Show("Client saved successfully!");
             }
         }
     }

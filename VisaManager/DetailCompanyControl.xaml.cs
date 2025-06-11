@@ -95,8 +95,7 @@ namespace VisaManager
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-
-            // Create a Company object with the current details
+            // Get the current company details
             var company = new Company
             {
                 Name = NameLabel.Text,
@@ -113,13 +112,26 @@ namespace VisaManager
                 Doc5Path = Doc5Link.Tag?.ToString()
             };
 
-            // Clear any existing content
-            var parent = Parent as Panel;
-            parent?.Children.Clear();
+            // Get the ID from database
+            using (var conn = new SQLiteConnection("Data Source=Database/mydata.sqlite;Version=3;"))
+            {
+                conn.Open();
+                var cmd = new SQLiteCommand("SELECT Id FROM Company WHERE Name = @name", conn);
+                cmd.Parameters.AddWithValue("@name", company.Name);
+                var result = cmd.ExecuteScalar();
+                if (result != null)
+                {
+                    company.Id = Convert.ToInt32(result);
+                }
+            }
 
-            // Add the edit control
-            var editControl = new EditCompanyControl(company);
-            parent?.Children.Add(editControl);
+            // Navigate to edit control
+            var mainWindow = Window.GetWindow(this) as MainWindow;
+            if (mainWindow != null)
+            {
+                var editControl = new EditCompanyControl(company);
+                mainWindow.NavigateTo(editControl);
+            }
         }
 
 
