@@ -24,7 +24,7 @@
         <!-- Header -->
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <materialDesign:PackIcon Kind="Alert" Width="24" Height="24" Margin="0 0 8 0"/>
-            <TextBlock Text="Expiring Visa Notifications" 
+            <TextBlock Text="EXPIRING VISA NOTIFICATIONS" 
                        Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
         </StackPanel>
 

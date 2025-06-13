@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows;
 using Microsoft.Win32;
 using System.Windows.Controls;
+using System;
 
 
 namespace VisaManager
@@ -110,7 +111,9 @@ namespace VisaManager
         private string CopyFile(string sourcePath, string label)
         {
             if (string.IsNullOrWhiteSpace(sourcePath) || !File.Exists(sourcePath)) return "";
-            string folder = @"C:\VisaManager";
+
+            string folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "company_doc");
+
             Directory.CreateDirectory(folder);
             string destFileName = $"{label}_{Path.GetFileName(sourcePath)}";
             string destPath = Path.Combine(folder, destFileName);
@@ -161,7 +164,7 @@ namespace VisaManager
                 mainWindow.ShowContent(new PreviewCompanyControl());
 
                 // Optional: Show confirmation snackbar
-                mainWindow.ShowSnackbar("Company Added successfully");
+                MessageBox.Show("Company saved successfully!");
             }
         }
     }

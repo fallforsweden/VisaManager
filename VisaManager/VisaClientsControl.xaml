@@ -26,7 +26,7 @@
         <!-- Header -->
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <materialDesign:PackIcon Kind="Passport" Width="24" Height="24" Margin="0 0 8 0"/>
-            <TextBlock x:Name="HeaderText" Text="Clients with Visa: " 
+            <TextBlock x:Name="HeaderText" Text="CLIENT WITH CURRENT VISA " 
                        Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
         </StackPanel>
 

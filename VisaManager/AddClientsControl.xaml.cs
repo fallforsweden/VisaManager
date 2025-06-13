@@ -184,7 +184,7 @@ namespace VisaManager
         private string CopyFile(string sourcePath, string label)
         {
             if (string.IsNullOrWhiteSpace(sourcePath) || !File.Exists(sourcePath)) return "";
-            string folder = @"C:\VisaManager";
+            string folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "client_doc");
             Directory.CreateDirectory(folder);
             string destFileName = $"{label}_{Path.GetFileName(sourcePath)}";
             string destPath = Path.Combine(folder, destFileName);

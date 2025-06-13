@@ -76,7 +76,7 @@
                     <Grid>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="24 0">
                             <materialDesign:PackIcon Kind="AccountDetails" Foreground="White" Width="28" Height="28"/>
-                            <TextBlock Text="Client Details" 
+                            <TextBlock Text="CLIENT DETAILS" 
                                    Foreground="White" 
                                    Style="{StaticResource HeaderText}"
                                    Margin="12 0 0 0"/>

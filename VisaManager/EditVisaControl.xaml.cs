@@ -109,11 +109,6 @@ namespace VisaManager
             }
         }
 
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            NavigateToDetail(_originalVisaName);
-        }
-
         private void NavigateToDetail(string visaName)
         {
             if (Window.GetWindow(this) is MainWindow mainWindow)

@@ -6,7 +6,7 @@
              xmlns:mtrl="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
+             d:DesignHeight="600" d:DesignWidth="800"
              Background="Transparent">
 
     <UserControl.Resources>
@@ -35,43 +35,40 @@
         <StackPanel>
             <!-- Header -->
             <StackPanel Orientation="Horizontal" Margin="0 0 0 16">
-                <materialDesign:PackIcon Kind="Passport" Width="32" Height="32"
-                                        Foreground="{DynamicResource PrimaryHueMidBrush}"/>
-                <TextBlock Text="Add New Visa" 
+                <TextBlock Text="ADD NEW VISA" 
                           Style="{DynamicResource MaterialDesignHeadline6TextBlock}"
                           Margin="8 0 0 0"
                            />
             </StackPanel>
 
             <!-- Visa Name -->
+            <TextBlock Text="NAME" Margin="0,0,0,4"/>
+            
             <TextBox x:Name="VisaNameTextBox"
-                    materialDesign:HintAssist.Hint="Visa Name"
                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                     Margin="0 0 0 16"/>
 
-            <!-- Requirements -->
+            <TextBlock Text="REQUIREMENTS" Margin="0,0,0,4"/>
             <TextBox x:Name="RequirementTextBox"
-                    materialDesign:HintAssist.Hint="Requirements"
                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                     AcceptsReturn="True"
-                    MinHeight="100"
+                    MinHeight="200"
                     VerticalScrollBarVisibility="Auto"
                     Margin="0 0 0 16"/>
 
-            <!-- Expiration -->
+            <TextBlock Text="EXPIRE DAYS" Margin="0,0,0,4"/>
             <TextBox x:Name="ExpireDaysTextBox"
-         materialDesign:HintAssist.Hint="Expiration Days"
-         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-         Margin="0 0 0 24"
-         PreviewTextInput="ExpireDaysTextBox_PreviewTextInput"
-         PreviewKeyDown="ExpireDaysTextBox_PreviewKeyDown" />
+                    Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                    Margin="0 0 0 24"
+                    PreviewTextInput="ExpireDaysTextBox_PreviewTextInput"
+                    PreviewKeyDown="ExpireDaysTextBox_PreviewKeyDown"/>
 
-
-            <!-- Buttons -->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Content="SAVE"
                         Style="{StaticResource MaterialDesignRaisedButton}"
+                        Width="150"
                         Click="SaveButton_Click"/>
+                
             </StackPanel>
         </StackPanel>
     </Border>

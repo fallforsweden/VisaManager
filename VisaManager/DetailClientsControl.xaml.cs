@@ -50,12 +50,13 @@ namespace VisaManager
                         ExpireDateText.Text = reader["ExpireDate"].ToString();
                         CountryText.Text = reader["CountryOrigin"].ToString();
                         CompanyText.Text = reader["Company"].ToString();
-                        PassportLink.Tag = reader["Passport"].ToString();
-                        PasPhotoLink.Tag = reader["PasPhoto"].ToString();
-                        RekeningLink.Tag = reader["Rekening"].ToString();
-                        KTPLink.Tag = reader["KTP"].ToString();
-                        PermohonanLink.Tag = reader["Permohonan"].ToString();
-                        NPWPLink.Tag = reader["NPWP"].ToString();
+                        SetFileButtonState(PassportLink, reader["Passport"].ToString());
+                        SetFileButtonState(PasPhotoLink, reader["PasPhoto"].ToString());
+                        SetFileButtonState(RekeningLink, reader["Rekening"].ToString());
+                        SetFileButtonState(KTPLink, reader["KTP"].ToString());
+                        SetFileButtonState(PermohonanLink, reader["Permohonan"].ToString());
+                        SetFileButtonState(NPWPLink, reader["NPWP"].ToString());
+
                     }
                     reader.Close();
                 }
@@ -144,6 +145,14 @@ namespace VisaManager
                 parentWindow?.NavigateTo(new CompanyClientsControl(CompanyText.Text));
             }
         }
+
+        private void SetFileButtonState(System.Windows.Controls.Button button, string filePath)
+        {
+            button.Tag = filePath;
+            button.IsEnabled = File.Exists(filePath);
+            button.ToolTip = File.Exists(filePath) ? null : "File not found";
+        }
+
 
     }
 }

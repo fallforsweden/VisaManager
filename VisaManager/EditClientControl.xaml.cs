@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.Data.SqlTypes;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,12 +13,22 @@ namespace VisaManager
     {
         private string clientName;
         public string UpdatedClientName { get; private set; }
-        private string passportPath;
-        private string pasPhotoPath;
-        private string rekeningPath;
-        private string npwpPath;
-        private string ktpPath;
-        private string permohonanPath;
+        // Original paths from DB
+        private string originalPassportPath;
+        private string originalPasPhotoPath;
+        private string originalRekeningPath;
+        private string originalNpwpPath;
+        private string originalKtpPath;
+        private string originalPermohonanPath;
+
+        // Temporary (staged) new paths
+        private string stagedPassportPath;
+        private string stagedPasPhotoPath;
+        private string stagedRekeningPath;
+        private string stagedNpwpPath;
+        private string stagedKtpPath;
+        private string stagedPermohonanPath;
+
 
         public EditClientControl(string name)
         {
@@ -53,12 +64,19 @@ namespace VisaManager
 
                         CountryComboBox.SelectedItem = reader["CountryOrigin"].ToString();
                         CompanyComboBox.SelectedItem = reader["Company"].ToString();
-                        passportPath = reader["Passport"].ToString();
-                        pasPhotoPath = reader["PasPhoto"].ToString();
-                        rekeningPath = reader["Rekening"].ToString();
-                        npwpPath = reader["NPWP"].ToString();
-                        ktpPath = reader["KTP"].ToString();
-                        permohonanPath = reader["Permohonan"].ToString();
+                        originalPassportPath = reader["Passport"].ToString();
+                        originalPasPhotoPath = reader["PasPhoto"].ToString();
+                        originalRekeningPath = reader["Rekening"].ToString();
+                        originalNpwpPath = reader["NPWP"].ToString();
+                        originalKtpPath = reader["KTP"].ToString();
+                        originalPermohonanPath = reader["Permohonan"].ToString();
+                        SetViewButtonState(PassportButton, stagedPassportPath);
+                        SetViewButtonState(PasPhotoButton, stagedPasPhotoPath);
+                        SetViewButtonState(RekeningButton, stagedRekeningPath);
+                        SetViewButtonState(NPWPButton, stagedNpwpPath);
+                        SetViewButtonState(KTPButton, stagedKtpPath);
+                        SetViewButtonState(PermohonanButton, stagedPermohonanPath);
+
                     }
                 }
             }
@@ -137,6 +155,38 @@ namespace VisaManager
                 MessageBox.Show("Please fill in all required fields");
                 return;
             }
+            string folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "VisaManager");
+            Directory.CreateDirectory(folder);
+
+            string SaveDocument(string original, string staged, string label)
+            {
+                if (string.IsNullOrEmpty(staged)) return original; // staged is empty, fallback to original
+                if (original == staged) return original; // nothing changed
+
+                try
+                {
+                    string folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "VisaManager");
+                    Directory.CreateDirectory(folder);
+
+                    string destFileName = $"{label}_{Path.GetFileName(staged)}";
+                    string destPath = Path.Combine(folder, destFileName);
+                    File.Copy(staged, destPath, true);
+                    return destPath;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Failed to copy file: {ex.Message}");
+                    return original;
+                }
+            }
+
+
+            string finalPassportPath = SaveDocument(originalPassportPath, stagedPassportPath, "Passport");
+            string finalPasPhotoPath = SaveDocument(originalPasPhotoPath, stagedPasPhotoPath, "PasPhoto");
+            string finalRekeningPath = SaveDocument(originalRekeningPath, stagedRekeningPath, "Rekening");
+            string finalNpwpPath = SaveDocument(originalNpwpPath, stagedNpwpPath, "NPWP");
+            string finalKtpPath = SaveDocument(originalKtpPath, stagedKtpPath, "KTP");
+            string finalPermohonanPath = SaveDocument(originalPermohonanPath, stagedPermohonanPath, "Permohonan");
 
             // Update database
             using (var conn = new SQLiteConnection("Data Source=Database/mydata.sqlite;Version=3;"))
@@ -157,12 +207,12 @@ namespace VisaManager
                 cmd.Parameters.AddWithValue("@country", CountryComboBox.SelectedItem?.ToString());
                 cmd.Parameters.AddWithValue("@company", CompanyComboBox.SelectedItem?.ToString());
                 cmd.Parameters.AddWithValue("@originalName", clientName);
-                cmd.Parameters.AddWithValue("@passportPath", passportPath);
-                cmd.Parameters.AddWithValue("@pasPhotoPath", pasPhotoPath);
-                cmd.Parameters.AddWithValue("@rekeningPath", rekeningPath);
-                cmd.Parameters.AddWithValue("@npwpPath", npwpPath);
-                cmd.Parameters.AddWithValue("@ktpPath", ktpPath);
-                cmd.Parameters.AddWithValue("@permohonanPath", permohonanPath);
+                cmd.Parameters.AddWithValue("@passportPath", finalPassportPath);
+                cmd.Parameters.AddWithValue("@pasPhotoPath", finalPasPhotoPath);
+                cmd.Parameters.AddWithValue("@rekeningPath", finalRekeningPath);
+                cmd.Parameters.AddWithValue("@npwpPath", finalNpwpPath);
+                cmd.Parameters.AddWithValue("@ktpPath", finalKtpPath);
+                cmd.Parameters.AddWithValue("@permohonanPath", finalPermohonanPath);
 
 
                 cmd.ExecuteNonQuery();
@@ -171,15 +221,18 @@ namespace VisaManager
             UpdatedClientName = NameTextBox.Text;
             MessageBox.Show("Client updated successfully!");
 
-            // Close the edit view (you'll need to implement this part)
+            // Navigate to DetailClientsControl
             var parent = Parent as Panel;
             parent?.Children.Remove(this);
+            parent?.Children.Add(new DetailClientsControl(UpdatedClientName));
+
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             var parent = Parent as Panel;
             parent?.Children.Remove(this);
+            parent?.Children.Add(new PreviewClientsControl());
         }
 
         private string CopyFile(string sourcePath, string label)
@@ -217,71 +270,249 @@ namespace VisaManager
             }
         }
 
+        private string SelectFile()
+        {
+            var dlg = new Microsoft.Win32.OpenFileDialog
+            {
+                Filter = "Image and PDF Files|*.jpg;*.jpeg;*.png;*.pdf"
+            };
+
+            return dlg.ShowDialog() == true ? dlg.FileName : null;
+        }
+
+
         // Document replacement handlers
         private void ReplacePassport_Click(object sender, RoutedEventArgs e)
-            => ReplaceDocument(ref passportPath, "Passport");
-
-        private void ReplacePasPhoto_Click(object sender, RoutedEventArgs e)
-            => ReplaceDocument(ref pasPhotoPath, "PasPhoto");
-
-        private void ReplaceRekening_Click(object sender, RoutedEventArgs e)
-            => ReplaceDocument(ref rekeningPath, "Rekening");
-
-        private void ReplaceNPWP_Click(object sender, RoutedEventArgs e)
-            => ReplaceDocument(ref npwpPath, "NPWP");
-
-        private void ReplaceKTP_Click(object sender, RoutedEventArgs e)
-            => ReplaceDocument(ref ktpPath, "KTP");
-
-        private void ReplacePermohonan_Click(object sender, RoutedEventArgs e)
-            => ReplaceDocument(ref permohonanPath, "Permohonan");
-    
-
-    private void ViewDocument(string filePath, string documentType)
         {
-            if (string.IsNullOrEmpty(filePath))
+            var selectedPath = SelectFile();
+            if (selectedPath != null)
             {
-                MessageBox.Show($"No {documentType} document available");
-                return;
-            }
-
-            try
-            {
-                if (File.Exists(filePath))
-                {
-                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
-                    {
-                        FileName = filePath,
-                        UseShellExecute = true
-                    });
-                }
-                else
-                {
-                    MessageBox.Show($"{documentType} document not found at: {filePath}");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Failed to open {documentType} document: {ex.Message}");
+                stagedPassportPath = selectedPath;
+                SetViewButtonState(PassportButton, stagedPassportPath);
+                
             }
         }
 
+        private void ReplacePasPhoto_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedPath = SelectFile();
+            if (selectedPath != null)
+            {
+                stagedPasPhotoPath = selectedPath;
+                SetViewButtonState(PasPhotoButton, stagedPasPhotoPath);
+                
+            }
+        }
+
+        private void ReplaceRekening_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedPath = SelectFile();
+            if (selectedPath != null)
+            {
+                stagedRekeningPath = selectedPath;
+                SetViewButtonState(RekeningButton, stagedRekeningPath);
+                
+            }
+        }
+
+        private void ReplaceNPWP_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedPath = SelectFile();
+            if (selectedPath != null)
+            {
+                stagedNpwpPath = selectedPath;
+                SetViewButtonState(NPWPButton, stagedNpwpPath);
+                
+            }
+        }
+
+        private void ReplaceKTP_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedPath = SelectFile();
+            if (selectedPath != null)
+            {
+                stagedKtpPath = selectedPath;
+                SetViewButtonState(KTPButton, stagedKtpPath);
+                
+            }
+        }
+
+        private void ReplacePermohonan_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedPath = SelectFile();
+            if (selectedPath != null)
+            {
+                stagedPermohonanPath = selectedPath;
+                SetViewButtonState(PermohonanButton, stagedPermohonanPath);
+                
+            }
+        }
+
+
         private void Passport_Click(object sender, RoutedEventArgs e)
-            => ViewDocument(passportPath, "Passport");
+        {
+            if (sender is System.Windows.Controls.Button btn && btn.Tag is string filePath)
+            {
+                try
+                {
+                    if (File.Exists(filePath))
+                    {
+                        System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+                        {
+                            FileName = filePath,
+                            UseShellExecute = true
+                        });
+                    }
+                    else
+                    {
+                        MessageBox.Show("File not found: " + filePath);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Failed to open file: " + ex.Message);
+                }
+            }
+        }
 
         private void PasPhoto_Click(object sender, RoutedEventArgs e)
-            => ReplaceDocument(ref pasPhotoPath, "PasPhoto");
+        {
+            if (sender is System.Windows.Controls.Button btn && btn.Tag is string filePath)
+            {
+                try
+                {
+                    if (File.Exists(filePath))
+                    {
+                        System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+                        {
+                            FileName = filePath,
+                            UseShellExecute = true
+                        });
+                    }
+                    else
+                    {
+                        MessageBox.Show("File not found: " + filePath);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Failed to open file: " + ex.Message);
+                }
+            }
+        }
 
         private void Rekening_Click(object sender, RoutedEventArgs e)
-            => ReplaceDocument(ref rekeningPath, "Rekening");
+        {
+            if (sender is System.Windows.Controls.Button btn && btn.Tag is string filePath)
+            {
+                try
+                {
+                    if (File.Exists(filePath))
+                    {
+                        System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+                        {
+                            FileName = filePath,
+                            UseShellExecute = true
+                        });
+                    }
+                    else
+                    {
+                        MessageBox.Show("File not found: " + filePath);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Failed to open file: " + ex.Message);
+                }
+            }
+        }
 
         private void NPWP_Click(object sender, RoutedEventArgs e)
-            => ReplaceDocument(ref npwpPath, "NPWP");
+        {
+            if (sender is System.Windows.Controls.Button btn && btn.Tag is string filePath)
+            {
+                try
+                {
+                    if (File.Exists(filePath))
+                    {
+                        System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+                        {
+                            FileName = filePath,
+                            UseShellExecute = true
+                        });
+                    }
+                    else
+                    {
+                        MessageBox.Show("File not found: " + filePath);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Failed to open file: " + ex.Message);
+                }
+            }
+        }
 
         private void KTP_Click(object sender, RoutedEventArgs e)
-            => ReplaceDocument(ref ktpPath, "KTP");
+        {
+            if (sender is System.Windows.Controls.Button btn && btn.Tag is string filePath)
+            {
+                try
+                {
+                    if (File.Exists(filePath))
+                    {
+                        System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+                        {
+                            FileName = filePath,
+                            UseShellExecute = true
+                        });
+                    }
+                    else
+                    {
+                        MessageBox.Show("File not found: " + filePath);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Failed to open file: " + ex.Message);
+                }
+            }
+        }
 
         private void Permohonan_Click(object sender, RoutedEventArgs e)
-            => ReplaceDocument(ref permohonanPath, "Permohonan");
+        {
+            if (sender is System.Windows.Controls.Button btn && btn.Tag is string filePath)
+            {
+                try
+                {
+                    if (File.Exists(filePath))
+                    {
+                        System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+                        {
+                            FileName = filePath,
+                            UseShellExecute = true
+                        });
+                    }
+                    else
+                    {
+                        MessageBox.Show("File not found: " + filePath);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Failed to open file: " + ex.Message);
+                }
+            }
+        }
+
+
+        private void SetViewButtonState(System.Windows.Controls.Button button, string filePath)
+        {
+            button.Tag = filePath;
+            bool exists = File.Exists(filePath);
+            button.IsEnabled = exists;
+            button.ToolTip = exists ? null : "File not found";
+        }
+
     }
 }

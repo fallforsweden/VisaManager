@@ -133,7 +133,7 @@ namespace VisaManager
             },
             new NavigationItem
             {
-                Title = "Visa List",
+                Title = "Manage",
                 Icon = PackIconKind.FormatListBulleted,
                 Command = new RelayCommand(() => ShowContent(new PreviewVisaControl()))
             }
@@ -155,7 +155,7 @@ namespace VisaManager
             },
             new NavigationItem
             {
-                Title = "Client List",
+                Title = "Manage",
                 Icon = PackIconKind.FormatListBulleted,
                 Command = new RelayCommand(() => ShowContent(new PreviewClientsControl()))
             }
@@ -177,7 +177,7 @@ namespace VisaManager
             },
             new NavigationItem
             {
-                Title = "Company List",
+                Title = "Manage",
                 Icon = PackIconKind.FormatListBulleted,
                 Command = new RelayCommand(() => ShowContent(new PreviewCompanyControl()))
             }

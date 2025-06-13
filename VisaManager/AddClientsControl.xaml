@@ -81,7 +81,7 @@
             <!-- Header Section -->
             <Border Style="{StaticResource ModernCard}">
                 <StackPanel>
-                    <TextBlock Text="🧑 Add New Client" 
+                    <TextBlock Text="ADD NEW CLIENT" 
                               FontSize="20"
                               FontWeight="SemiBold"
                               Margin="0 0 0 16"/>
@@ -97,21 +97,21 @@
                         <StackPanel Grid.Column="0" Margin="0 0 16 0">
                             <TextBlock Text="Personal Information" Style="{StaticResource SectionHeader}"/>
 
-                            <TextBlock Text="Full Name" Margin="0 0 0 4"/>
-                            <TextBox x:Name="NameTextBox" Style="{StaticResource ModernTextBox}"/>
+                            <TextBlock Text="FULL NAME" Margin="0 10 0 10"/>
+                            <TextBox x:Name="NameTextBox" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
 
-                            <TextBlock Text="Passport Number" Margin="0 0 0 4"/>
-                            <TextBox x:Name="PassportNoTextBox" Style="{StaticResource ModernTextBox}"/>
+                            <TextBlock Text="No. PASSPORT" Margin="0 10 0 10"/>
+                            <TextBox x:Name="PassportNoTextBox" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
 
-                            <TextBlock Text="Email" Margin="0 0 0 4"/>
-                            <TextBox x:Name="EmailTextBox" Style="{StaticResource ModernTextBox}"/>
+                            <TextBlock Text="EMAIL" Margin="0 10 0 10"/>
+                            <TextBox x:Name="EmailTextBox" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
                         </StackPanel>
 
                         <!-- Column 2 -->
                         <StackPanel Grid.Column="1" Margin="16 0 16 0">
                             <TextBlock Text="Visa Details" Style="{StaticResource SectionHeader}"/>
 
-                            <TextBlock Text="Visa Type" Margin="0 0 0 4"/>
+                            <TextBlock Text="VISA TYPE" Margin="0 10 0 10"/>
                             <ComboBox x:Name="VisaTypeComboBox" 
                                     Style="{StaticResource MaterialDesignComboBox}"
                                     SelectionChanged="VisaTypeComboBox_SelectionChanged"
@@ -132,14 +132,13 @@
                         <StackPanel Grid.Column="2" Margin="16 0 0 0">
                             <TextBlock Text="Company Details" Style="{StaticResource SectionHeader}"/>
 
-                            <TextBlock Text="Company" Margin="0 0 0 4"/>
+                            <TextBlock Text="COMPANY" Margin="0 10 0 10"/>
                             <ComboBox x:Name="CompanyComboBox" 
-                                    Style="{StaticResource MaterialDesignComboBox}"
-                                    Margin="0 0 0 16"/>
-                            <TextBlock Text="Country"/>
+                                    Style="{StaticResource MaterialDesignComboBox}"/>
+                            <TextBlock Text="COUNTRY" Margin="0 10 0 10"/>
                             <ComboBox x:Name="CountryComboBox" 
                                     Style="{StaticResource MaterialDesignComboBox}"/>
-                            <TextBlock Text="Expire Date"/>
+                            <TextBlock Text="EXPIRE DATE" Margin="0 10 0 10"/>
                             <DatePicker x:Name="ExpireDatePicker" 
                                        BorderThickness="0 0 0 2"
                                        BorderBrush="#6200EE"
@@ -153,7 +152,7 @@
             <!-- Documents Section -->
             <Border Style="{StaticResource ModernCard}" Margin="0 16 0 0">
                 <StackPanel>
-                    <TextBlock Text="📁 Required Documents" Style="{StaticResource SectionHeader}"/>
+                    <TextBlock Text="Required Documents" Style="{StaticResource SectionHeader}"/>
 
                     <UniformGrid Columns="2" Margin="0 8 0 0">
                         <!-- Column 1 -->
@@ -196,12 +195,13 @@
             </Border>
 
             <!-- Save Button -->
-            <Button Content="💾 Save Client" 
+            <Button Content="SAVE" 
                     HorizontalAlignment="Right"
                     Margin="16"
-                    Width="180"
+                    Width="150"
                     Click="SaveClient_Click"
-                    Style="{StaticResource ModernButton}"/>
+                    Style="{StaticResource MaterialDesignRaisedButton}"/>
+            
         </StackPanel>
     </ScrollViewer>
 </UserControl>

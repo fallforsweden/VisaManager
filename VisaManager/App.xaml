@@ -20,5 +20,9 @@
             <local:BoolToStatusBrushConverter x:Key="BoolToStatusBrushConverter"/>
             <local:BoolToStatusTextConverter x:Key="BoolToStatusTextConverter"/>
         </ResourceDictionary>
+        
+        
     </Application.Resources>
+    
+    
 </Application>

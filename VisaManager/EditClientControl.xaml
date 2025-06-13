@@ -115,42 +115,42 @@
                                 <!-- Passport -->
                                 <TextBlock Text="Passport:" Grid.Row="0" Grid.Column="0" Style="{StaticResource DocumentLabel}"/>
                                 <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
-                                    <Button Content="View" Style="{StaticResource DocumentButton}" Click="Passport_Click"/>
+                                    <Button x:Name="PassportButton" Content="View" Style="{StaticResource DocumentButton}" Click="Passport_Click"/>
                                     <Button Content="Replace" Style="{StaticResource DocumentButton}" Click="ReplacePassport_Click"/>
                                 </StackPanel>
 
                                 <!-- Photo -->
                                 <TextBlock Text="Pas Photo:" Grid.Row="1" Grid.Column="0" Style="{StaticResource DocumentLabel}"/>
                                 <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
-                                    <Button Content="View" Style="{StaticResource DocumentButton}" Click="PasPhoto_Click"/>
+                                    <Button x:Name="PasPhotoButton" Content="View" Style="{StaticResource DocumentButton}" Click="PasPhoto_Click"/>
                                     <Button Content="Replace" Style="{StaticResource DocumentButton}" Click="ReplacePasPhoto_Click"/>
                                 </StackPanel>
 
                                 <!-- Rekening -->
                                 <TextBlock Text="Rekening:" Grid.Row="2" Grid.Column="0" Style="{StaticResource DocumentLabel}"/>
                                 <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
-                                    <Button Content="View" Style="{StaticResource DocumentButton}" Click="Rekening_Click"/>
+                                    <Button x:Name="RekeningButton" Content="View" Style="{StaticResource DocumentButton}" Click="Rekening_Click"/>
                                     <Button Content="Replace" Style="{StaticResource DocumentButton}" Click="ReplaceRekening_Click"/>
                                 </StackPanel>
 
                                 <!-- NPWP -->
                                 <TextBlock Text="NPWP:" Grid.Row="3" Grid.Column="0" Style="{StaticResource DocumentLabel}"/>
                                 <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
-                                    <Button Content="View" Style="{StaticResource DocumentButton}" Click="NPWP_Click"/>
+                                    <Button x:Name="NPWPButton" Content="View" Style="{StaticResource DocumentButton}" Click="NPWP_Click"/>
                                     <Button Content="Replace" Style="{StaticResource DocumentButton}" Click="ReplaceNPWP_Click"/>
                                 </StackPanel>
 
                                 <!-- KTP -->
                                 <TextBlock Text="KTP:" Grid.Row="4" Grid.Column="0" Style="{StaticResource DocumentLabel}"/>
                                 <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal">
-                                    <Button Content="View" Style="{StaticResource DocumentButton}" Click="KTP_Click"/>
+                                    <Button x:Name="KTPButton" Content="View" Style="{StaticResource DocumentButton}" Click="KTP_Click"/>
                                     <Button Content="Replace" Style="{StaticResource DocumentButton}" Click="ReplaceKTP_Click"/>
                                 </StackPanel>
 
                                 <!-- Permohonan -->
                                 <TextBlock Text="Permohonan:" Grid.Row="5" Grid.Column="0" Style="{StaticResource DocumentLabel}"/>
                                 <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal">
-                                    <Button Content="View" Style="{StaticResource DocumentButton}" Click="Permohonan_Click"/>
+                                    <Button x:Name="PermohonanButton" Content="View" Style="{StaticResource DocumentButton}" Click="Permohonan_Click"/>
                                     <Button Content="Replace" Style="{StaticResource DocumentButton}" Click="ReplacePermohonan_Click"/>
                                 </StackPanel>
                             </Grid>

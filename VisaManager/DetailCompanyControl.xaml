@@ -69,7 +69,7 @@
                 <!-- Header -->
                 <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" Margin="0 0 0 16">
                     <materialDesign:PackIcon Kind="OfficeBuilding" Width="24" Height="24" Margin="0 0 8 0"/>
-                    <TextBlock Text="Company Details" FontSize="24" FontWeight="SemiBold"/>
+                    <TextBlock Text="COMPANY DETAIL" FontSize="24" FontWeight="SemiBold"/>
                 </StackPanel>
 
                 <!-- Basic Info Section -->

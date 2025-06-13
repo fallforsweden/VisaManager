@@ -29,7 +29,12 @@
     </UserControl.Resources>
 
     <ScrollViewer>
+        
+        
         <StackPanel Margin="24">
+            <TextBlock Text="DETAIL VISA" Style="{StaticResource HeaderText}"/>
+
+            <TextBlock Text="Name" Style="{StaticResource LabelText}"/>
             <TextBlock x:Name="VisaNameText" Style="{StaticResource HeaderText}"/>
 
             <TextBlock Text="Requirements" Style="{StaticResource LabelText}"/>
