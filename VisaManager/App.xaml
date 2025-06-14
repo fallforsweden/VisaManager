@@ -11,9 +11,10 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign2.Defaults.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.DeepPurple.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Secondary/MaterialDesignColor.Lime.xaml" />
+                
             </ResourceDictionary.MergedDictionaries>
 
-
+            
             <local:ExpiryStatusConverter x:Key="ExpiryStatusConverter"/>
             <local:DaysLeftConverter x:Key="DaysLeftConverter"/>
 

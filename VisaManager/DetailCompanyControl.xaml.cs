@@ -53,18 +53,58 @@ namespace VisaManager
                     ContactLabel.Text = reader["Contact"].ToString();
                     EmailLabel.Text = reader["Email"].ToString();
                     AktaLink.Tag = reader["Akta"].ToString();
+                    AktaLink.Visibility = File.Exists(AktaLink.Tag?.ToString()) ? Visibility.Visible : Visibility.Collapsed;
                     SKLink.Tag = reader["SK"].ToString();
+                    SKLink.Visibility = File.Exists(SKLink.Tag?.ToString()) ? Visibility.Visible : Visibility.Collapsed;
                     NIBLink.Tag = reader["NIB"].ToString();
+                    NIBLink.Visibility = File.Exists(NIBLink.Tag?.ToString()) ? Visibility.Visible : Visibility.Collapsed;
                     NPWPLink.Tag = reader["NPWP"].ToString();
+                    NPWPLink.Visibility = File.Exists(NPWPLink.Tag?.ToString()) ? Visibility.Visible : Visibility.Collapsed;
                     Doc1Link.Tag = reader["Doc1"].ToString();
+                    Doc1Link.Visibility = File.Exists(Doc1Link.Tag?.ToString()) ? Visibility.Visible : Visibility.Collapsed;
                     Doc2Link.Tag = reader["Doc2"].ToString();
+                    Doc2Link.Visibility = File.Exists(Doc2Link.Tag?.ToString()) ? Visibility.Visible : Visibility.Collapsed;
                     Doc3Link.Tag = reader["Doc3"].ToString();
+                    Doc3Link.Visibility = File.Exists(Doc3Link.Tag?.ToString()) ? Visibility.Visible : Visibility.Collapsed;
                     Doc4Link.Tag = reader["Doc4"].ToString();
+                    Doc4Link.Visibility = File.Exists(Doc4Link.Tag?.ToString()) ? Visibility.Visible : Visibility.Collapsed;
                     Doc5Link.Tag = reader["Doc5"].ToString();
+                    Doc5Link.Visibility = File.Exists(Doc5Link.Tag?.ToString()) ? Visibility.Visible : Visibility.Collapsed;
+                    ShowDocument(AktaLink, AktaPlaceholder, reader["Akta"].ToString());
+                    ShowDocument(SKLink, SKPlaceholder, reader["SK"].ToString());
+                    ShowDocument(NIBLink, NIBPlaceholder, reader["NIB"].ToString());
+                    ShowDocument(NPWPLink, NPWPPlaceholder, reader["NPWP"].ToString());
+                    ShowDocument(Doc1Link, Doc1Placeholder, reader["Doc1"].ToString());
+                    ShowDocument(Doc2Link, Doc2Placeholder, reader["Doc2"].ToString());
+                    ShowDocument(Doc3Link, Doc3Placeholder, reader["Doc3"].ToString());
+                    ShowDocument(Doc4Link, Doc4Placeholder, reader["Doc4"].ToString());
+                    ShowDocument(Doc5Link, Doc5Placeholder, reader["Doc5"].ToString());
+
                 }
                 reader.Close();
             }
         }
+
+        private void ShowDocument(Button button, TextBlock placeholder, string filePath)
+        {
+            button.Tag = filePath;
+
+            if (File.Exists(filePath))
+            {
+                button.Visibility = Visibility.Visible;
+                placeholder.Visibility = Visibility.Collapsed;
+
+                // Animate opacity
+                var fadeIn = new System.Windows.Media.Animation.DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(300));
+                button.BeginAnimation(UIElement.OpacityProperty, fadeIn);
+            }
+            else
+            {
+                button.Visibility = Visibility.Collapsed;
+                placeholder.Visibility = Visibility.Visible;
+            }
+        }
+
 
 
         private void OpenFile_Click(object sender, RoutedEventArgs e)

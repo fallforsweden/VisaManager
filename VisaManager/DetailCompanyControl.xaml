@@ -91,36 +91,69 @@
                     <TextBlock Text="Company Documents" Style="{StaticResource SectionHeader}"/>
 
                     <!-- Akta -->
-                    <StackPanel Style="{StaticResource DocumentRow}">
-                        <TextBlock Text="Akta:" Width="120" VerticalAlignment="Center"/>
-                        <Button x:Name="AktaLink" Content="View Document" 
-                                Style="{StaticResource MaterialDesignFlatButton}"
-                                Click="OpenFile_Click" Margin="8 0"/>
-                    </StackPanel>
+                    <Grid x:Name="AktaContainer">
+                        <Button x:Name="AktaLink"
+                           Content="Akta"
+                           Style="{StaticResource MaterialDesignFlatButton}"
+                           Click="OpenFile_Click"
+                           Visibility="Collapsed"/>    
+                        <TextBlock x:Name="AktaPlaceholder"
+                           Text="No Akta"
+                           Foreground="Gray"
+                           FontStyle="Italic"
+                           Visibility="Collapsed"
+                           VerticalAlignment="Center"
+                           Margin="5"/> 
+                    </Grid>
+
 
                     <!-- SK Kemenkumham -->
-                    <StackPanel Style="{StaticResource DocumentRow}">
-                        <TextBlock Text="SK Kemenkumham:" Width="120" VerticalAlignment="Center"/>
-                        <Button x:Name="SKLink" Content="View Document" 
+                    <Grid x:Name="SKContainer">
+                        <Button x:Name="SKLink"
+                            Content="SK Kemenkumham"
                             Style="{StaticResource MaterialDesignFlatButton}"
-                            Click="OpenFile_Click" Margin="8 0"/>
-                    </StackPanel>
+                            Click="OpenFile_Click"
+                            Visibility="Collapsed"/>
+                        <TextBlock x:Name="SKPlaceholder"
+                            Text="No SK Kemenkumham"
+                            Foreground="Gray"
+                            FontStyle="Italic"
+                            Visibility="Collapsed"
+                            VerticalAlignment="Center"
+                            Margin="5"/>
+                    </Grid>
 
                     <!-- NIB -->
-                    <StackPanel Style="{StaticResource DocumentRow}">
-                        <TextBlock Text="NIB:" Width="120" VerticalAlignment="Center"/>
-                        <Button x:Name="NIBLink" Content="View Document" 
-                                Style="{StaticResource MaterialDesignFlatButton}"
-                                Click="OpenFile_Click" Margin="8 0"/>
-                    </StackPanel>
+                    <Grid x:Name="NIBContainer">
+                        <Button x:Name="NIBLink"
+                             Content="NIB"
+                             Style="{StaticResource MaterialDesignFlatButton}"
+                             Click="OpenFile_Click"
+                             Visibility="Collapsed"/>
+                        <TextBlock x:Name="NIBPlaceholder"
+                             Text="No NIB"
+                             Foreground="Gray"
+                             FontStyle="Italic"
+                             Visibility="Collapsed"
+                             VerticalAlignment="Center"
+                             Margin="5"/>
+                    </Grid>
 
                     <!-- NPWP -->
-                    <StackPanel Style="{StaticResource DocumentRow}">
-                        <TextBlock Text="NPWP:" Width="120" VerticalAlignment="Center"/>
-                        <Button x:Name="NPWPLink" Content="View Document" 
-                                Style="{StaticResource MaterialDesignFlatButton}"
-                                Click="OpenFile_Click" Margin="8 0"/>
-                    </StackPanel>
+                    <Grid x:Name="NPWPContainer">
+                        <Button x:Name="NPWPLink"
+                             Content="NPWP"
+                             Style="{StaticResource MaterialDesignFlatButton}"
+                             Click="OpenFile_Click"
+                             Visibility="Collapsed"/>
+                        <TextBlock x:Name="NPWPPlaceholder"
+                             Text="No NPWP"
+                             Foreground="Gray"
+                             FontStyle="Italic"
+                             Visibility="Collapsed"
+                             VerticalAlignment="Center"
+                             Margin="5"/>
+                    </Grid>
                 </StackPanel>
 
                 <!-- Additional Documents Section -->
@@ -130,44 +163,84 @@
                     <!-- Doc 1-5 in a uniform grid -->
                     <UniformGrid Columns="2" Margin="16 0">
                         <!-- Doc 1 -->
-                        <StackPanel Style="{StaticResource DocumentRow}">
-                            <TextBlock Text="Document 1:" Width="120" VerticalAlignment="Center"/>
-                            <Button x:Name="Doc1Link" Content="View Document" 
-                                     Style="{StaticResource MaterialDesignFlatButton}"
-                                     Click="OpenFile_Click" Margin="8 0"/>
-                        </StackPanel>
+                        <Grid x:Name="Doc1Container">
+                            <Button x:Name="Doc1Link"
+                                 Content="Doc1"
+                                 Style="{StaticResource MaterialDesignFlatButton}"
+                                 Click="OpenFile_Click"
+                                 Visibility="Collapsed"/>
+                            <TextBlock x:Name="Doc1Placeholder"
+                                 Text="No Doc 1"
+                                 Foreground="Gray"
+                                 FontStyle="Italic"
+                                 Visibility="Collapsed"
+                                 VerticalAlignment="Center"
+                                 Margin="5"/>
+                        </Grid>
 
                         <!-- Doc 2 -->
-                        <StackPanel Style="{StaticResource DocumentRow}">
-                            <TextBlock Text="Document 2:" Width="120" VerticalAlignment="Center"/>
-                            <Button x:Name="Doc2Link" Content="View Document" 
-                                 Style="{StaticResource MaterialDesignFlatButton}"
-                                 Click="OpenFile_Click" Margin="8 0"/>
-                        </StackPanel>
+                        <Grid x:Name="Doc2Container">
+                            <Button x:Name="Doc2Link"
+         Content="Doc2"
+         Style="{StaticResource MaterialDesignFlatButton}"
+         Click="OpenFile_Click"
+         Visibility="Collapsed"/>
+                            <TextBlock x:Name="Doc2Placeholder"
+         Text="No Doc 2"
+         Foreground="Gray"
+         FontStyle="Italic"
+         Visibility="Collapsed"
+         VerticalAlignment="Center"
+         Margin="5"/>
+                        </Grid>
 
                         <!-- Doc 3 -->
-                        <StackPanel Style="{StaticResource DocumentRow}">
-                            <TextBlock Text="Document 3:" Width="120" VerticalAlignment="Center"/>
-                            <Button x:Name="Doc3Link" Content="View Document" 
-                                 Style="{StaticResource MaterialDesignFlatButton}"
-                                 Click="OpenFile_Click" Margin="8 0"/>
-                        </StackPanel>
+                        <Grid x:Name="Doc3Container">
+                            <Button x:Name="Doc3Link"
+         Content="Doc3"
+         Style="{StaticResource MaterialDesignFlatButton}"
+         Click="OpenFile_Click"
+         Visibility="Collapsed"/>
+                            <TextBlock x:Name="Doc3Placeholder"
+         Text="No Doc 3"
+         Foreground="Gray"
+         FontStyle="Italic"
+         Visibility="Collapsed"
+         VerticalAlignment="Center"
+         Margin="5"/>
+                        </Grid>
 
                         <!-- Doc 4 -->
-                        <StackPanel Style="{StaticResource DocumentRow}">
-                            <TextBlock Text="Document 4:" Width="120" VerticalAlignment="Center"/>
-                            <Button x:Name="Doc4Link" Content="View Document" 
-                                 Style="{StaticResource MaterialDesignFlatButton}"
-                                 Click="OpenFile_Click" Margin="8 0"/>
-                        </StackPanel>
+                        <Grid x:Name="Doc4Container">
+                            <Button x:Name="Doc4Link"
+         Content="Doc4"
+         Style="{StaticResource MaterialDesignFlatButton}"
+         Click="OpenFile_Click"
+         Visibility="Collapsed"/>
+                            <TextBlock x:Name="Doc4Placeholder"
+         Text="No Doc 4"
+         Foreground="Gray"
+         FontStyle="Italic"
+         Visibility="Collapsed"
+         VerticalAlignment="Center"
+         Margin="5"/>
+                        </Grid>
 
                         <!-- Doc 5 -->
-                        <StackPanel Style="{StaticResource DocumentRow}">
-                            <TextBlock Text="Document 5:" Width="120" VerticalAlignment="Center"/>
-                            <Button x:Name="Doc5Link" Content="View Document" 
-                                 Style="{StaticResource MaterialDesignFlatButton}"
-                                 Click="OpenFile_Click" Margin="8 0"/>
-                        </StackPanel>
+                        <Grid x:Name="Doc5Container">
+                            <Button x:Name="Doc5Link"
+         Content="Doc5"
+         Style="{StaticResource MaterialDesignFlatButton}"
+         Click="OpenFile_Click"
+         Visibility="Collapsed"/>
+                            <TextBlock x:Name="Doc5Placeholder"
+         Text="No Doc 5"
+         Foreground="Gray"
+         FontStyle="Italic"
+         Visibility="Collapsed"
+         VerticalAlignment="Center"
+         Margin="5"/>
+                        </Grid>
                     </UniformGrid>
                 </StackPanel>
 

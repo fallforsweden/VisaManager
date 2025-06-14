@@ -22,7 +22,8 @@
         </StackPanel>
 
         <!-- Clients List -->
-        <DataGrid x:Name="ClientsDataGrid" Grid.Row="1">
+        <DataGrid x:Name="ClientsDataGrid" Grid.Row="1" IsReadOnly="True"
+          AutoGenerateColumns="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"/>
                 <DataGridTextColumn Header="Passport No" Binding="{Binding PassportNo}" Width="*"/>

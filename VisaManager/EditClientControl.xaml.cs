@@ -230,16 +230,23 @@ namespace VisaManager
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
-            var parent = Parent as Panel;
-            parent?.Children.Remove(this);
-            parent?.Children.Add(new PreviewClientsControl());
+            // Confirm if user wants to discard changes
+            var result = MessageBox.Show("Discard all changes?", "Confirmation",
+                MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            var mainWindow = Window.GetWindow(this) as MainWindow;
+            if (result == MessageBoxResult.Yes)
+            {
+                var detailControl = new DetailClientsControl(clientName);
+                mainWindow.NavigateTo(detailControl);
+            }
         }
 
         private string CopyFile(string sourcePath, string label)
         {
             if (string.IsNullOrWhiteSpace(sourcePath)) return string.Empty;
 
-            string folder = @"C:\VisaManager";
+            string folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "client_doc");
             Directory.CreateDirectory(folder);
             string destFileName = $"{label}_{Path.GetFileName(sourcePath)}";
             string destPath = Path.Combine(folder, destFileName);

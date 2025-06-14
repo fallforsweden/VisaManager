@@ -13,6 +13,9 @@ using System.Linq;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.Input;
+using System.Threading.Tasks;
+using System.Windows.Media.Animation;
+using System.Windows.Media.Effects;
 
 namespace VisaManager
 {
@@ -47,6 +50,8 @@ namespace VisaManager
             InitializeComponent();
             MessageQueue = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
             MySnackbar.MessageQueue = MessageQueue;
+            StartWelcomeAnimation();
+
 
             string dbPath = "Database/mydata.sqlite";
 
@@ -189,14 +194,73 @@ namespace VisaManager
         }
 
 
-        // open window
-
-        public void ShowContent(UserControl control)
+        private async void StartWelcomeAnimation()
         {
-            // Clear existing content
+            await Task.Delay(1500); // Initial delay
+
+           
+
+            await Task.Delay(500); // Pause for logo effect
+
+            // 2. "Pull tab" stretch effect
+            var tabAnimation = new DoubleAnimation
+            {
+                From = 1,
+                To = 1.5,
+                Duration = TimeSpan.FromMilliseconds(200),
+                AutoReverse = true,
+                EasingFunction = new SineEase()
+            };
+            PullTabScale.BeginAnimation(ScaleTransform.ScaleYProperty, tabAnimation);
+
+            await Task.Delay(200);
+
+            // 3. Curtain rise with variable speed
+            var curtainAnimation = new DoubleAnimation
+            {
+                From = 0,
+                To = -ActualHeight,
+                Duration = TimeSpan.FromSeconds(1.2),
+                EasingFunction = new PowerEase
+                {
+                    Power = 3,
+                    EasingMode = EasingMode.EaseOut
+                }
+            };
+
+            curtainAnimation.Completed += (s, e) =>
+            {
+                WelcomeCurtain.Visibility = Visibility.Collapsed;
+            };
+
+            CurtainTransform.BeginAnimation(TranslateTransform.YProperty, curtainAnimation);
+
+            // 4. Simultaneous fade-to-transparent
+            var fadeAnimation = new DoubleAnimation
+            {
+                From = 1,
+                To = 0,
+                Duration = TimeSpan.FromSeconds(0.8),
+                BeginTime = TimeSpan.FromSeconds(0.4) // Delayed start
+            };
+            WelcomeCurtain.BeginAnimation(OpacityProperty, fadeAnimation);
+        }
+
+        public async void ShowContent(UserControl control)
+        {
+            // Fade out current content
+            var fadeOut = new DoubleAnimation(0, TimeSpan.FromSeconds(0.2));
+            ContentPanel.BeginAnimation(OpacityProperty, fadeOut);
+
+            await Task.Delay(200);
+
+            // Clear and add new content
             ContentPanel.Children.Clear();
-            // Add new content
             ContentPanel.Children.Add(control);
+
+            // Fade in new content
+            var fadeIn = new DoubleAnimation(1, TimeSpan.FromSeconds(0.3));
+            ContentPanel.BeginAnimation(OpacityProperty, fadeIn);
         }
 
         private void AddVisa_Click(object sender, RoutedEventArgs e)
@@ -264,7 +328,11 @@ namespace VisaManager
             ShowContent(new DetailClientsControl(passportNo));
         }
 
-
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
+            DragMove();
+        }
 
 
     }

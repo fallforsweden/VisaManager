@@ -34,9 +34,9 @@
             <Setter Property="Cursor" Value="Hand"/>
         </Style>
     </UserControl.Resources>
-    
-    
-    <DataGrid x:Name="VisaDataGrid" AutoGenerateColumns="False">
+
+
+    <DataGrid x:Name="VisaDataGrid" AutoGenerateColumns="False" IsReadOnly="True">
         <DataGrid.Columns>
             <!-- Visa Name Column -->
             <DataGridTemplateColumn Header="Visa Name">
